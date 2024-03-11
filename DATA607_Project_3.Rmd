@@ -1,0 +1,173 @@
+---
+title: "DATA607 Project III - Teamwork"
+author: "Koohyar Pooladvand"
+date: "`r Sys.Date()`"
+output:
+  pdf_document: default
+  html_document: default
+editor_options:
+  chunk_output_type: console
+  markdown:
+    wrap: 72
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Introduction
+
+While the presidential election season is in full swing, we decided to explore polling data sources that exist online.  There are several individual sources that could be found online; however, the website RealClear Politics is a location that gathers, summarizes, and presents the results of the various polls in one location.  It should be noted that, while this website is good of a summary view, the underlying polling data must be extracted from the various polling sources (if available) for further review and analysis.  The polling sources include Emerson College, The Economist Magazine, The New York Times/Sienna College, CBS News, and many others.  Some sources are free, while others incur a fee.  It should be noted that the polls tend to discriminate between “Registered Voters” (RV) and “Likely Voters” (LV), and the common belief is the LV are better more indicative of election results.  However, a Berkley Haas Study in 2020 reported that while the polls reached a 95% confidence level for statistical reporting, the actual election results only matched with the polls 60% of the time.
+
+## Data Sources
+We are currently in discussion to identify the data sources for analysis, and the type of analysis we wish to discuss.  The sources are varied and include tables on websites, attached PDF documents, and CSV files.  Some will require us prepare the data through another platform before we are able to evaluate and analyze the data.  This also needs to include a matching/pairing of questions and response on polls to insure equivalency of the questions.  Data that has currently been identified include The New York Times/Sienna, Roanoke College, and Emerson College Polls.
+
+## Code Initialization
+
+Here I load the required libraries and ensure all the required packages are installed before running the following blocks of codes.
+
+```{r Code_initialization, echo=FALSE, message=FALSE}
+
+required_packages <- c("RSQLite","devtools","tidyverse","DBI","dplyr","odbc","openintro","ggplot2","psych","reshape2","knitr","markdown","shiny","R.rsp","fivethirtyeight","RCurl", "stringr","readr","glue","data.table", "hflights", "jsonlite", "rjson", "XML", "xml2", "rvest", "readxl", "openxlsx", "httr") # Specify packages
+
+not_installed <- required_packages[!(required_packages %in% installed.packages()[ , "Package"])]# Extract not installed packages
+if(length(not_installed)==0){
+  print("All required packages are installed")
+} else {
+  print(paste(length(not_installed), "package(s) had to be installed.")) # print the list of packages that need to be installed
+  install.packages(not_installed)
+}
+
+# define different paths to load the files 
+library(dplyr)
+library(tidyverse)
+library(readxl)
+library(rvest)
+library(knitr)
+library(openxlsx)
+library(httr)
+library(jsonlite)
+
+#surpass the error message for dplyr to not show the masking
+suppressPackageStartupMessages(library(dplyr))
+
+
+```
+
+## Load files from GitHub 
+
+All our files are stored in the GitHub `Data/*` directory for productivity and collaboration. In this section, I verify the list of files in the Data folder and then load them all into R. All files are in CSV format and are readily accessible by RStudio. However, since they originate from different sources, we must first tidy, clean, and organize them.
+
+
+```{r load_files, echo=FALSE}
+
+# GitHub raw URL
+GitHub_raw <- "https://raw.githubusercontent.com/kohyarp/DATA607_Project3/main/Data"
+CSV_path <- "/NYT_Sienna%20Poll_table_1.csv"
+CSV_path <- paste0(GitHub_raw , CSV_path) 
+#read CSV file to the path to RStudio
+
+Read_csv <- read.csv(CSV_path,check.names = TRUE,
+                     na.strings = "NA", dec = ".", quote = "\"",
+                     header = FALSE,
+                     encoding = "UTF-8",
+                     blank.lines.skip = TRUE)
+
+#Read_csv <- read.csv("https://raw.githubusercontent.com/kohyarp/DATA607_Project3/main/Data/NYT_Sienna%20Poll_table_1.csv")
+
+
+# Send a GET request to the GitHub raw URL
+#GitHub_raw <- "https://raw.githubusercontent.com/kohyarp/DATA607_Project3/main"
+
+
+repository_url <- "https://api.github.com/repos/kohyarp/DATA607_Project3/contents/Data"
+
+
+GitHut_CSV_load <- function(repository_url = "https://api.github.com/repos/kohyarp/DATA607_Project3/contents/Data") {
+  # GitHub repository URL
+  
+  # Send a GET request to the GitHub API
+  response <- GET(repository_url)
+  #response <- GET(GitHub_raw)
+  #(response)
+  # Extract content from the response
+  #content <- content(response, "text")
+  
+  # Check if request was successful
+  if (http_type(response) == "application/json") {
+  # Parse JSON response
+  content <- content(response, as = "text")
+  file_list <- fromJSON(content)
+  
+  # Extract file names from the response
+  file_names <- file_list$name
+  #file_names <- sapply(file_list, function(x) x$name)
+  
+  # Filter out directories and unwanted files (like '..' and '.')
+  file_names <- file_names[file_names != ".." & file_names != "."]
+  # Replace spaces with %20 in file names
+  file_names <- URLencode(file_names)
+  
+  # Print the list of file names
+  print(file_names)
+} else {
+  # Print error message if request was not successful
+  print("Error: Unable to fetch file list from GitHub.")
+}
+  # Parse the content to extract file names
+  #file_names <- gsub(".*<a href=\"([^\"]*)\".*", "\\1", content)
+  # Filter out directories and unwanted files (like '..' and '.')
+  #file_names <- file_names[file_names != ".." & file_names != "."]
+  # Initialize list to load files
+  loaded_file_list <- list()
+  
+  # Counter to keep track of loaded files
+  file_counter <- 0
+  temp <- data.frame(file_names)
+  
+  # Loop through the file names, download, and load them into R
+  for (file in file_names) {
+  # Check if the file has .csv or .CSV extension
+  if (grepl("\\.csv$|\\.CSV$", file)) {
+    # Construct the full URL for each file
+    file_url <- paste0(GitHub_raw, "/", file)
+    
+    # Download the file
+    download.file(file_url, destfile = file, mode = "wb")
+    
+    # Load the file into R
+    data <- tryCatch(
+      read.csv(file_url,check.names = TRUE,
+                     na.strings = "NA", dec = ".", quote = "\"",
+                     header = FALSE,
+                     encoding = "UTF-8",
+                     blank.lines.skip = TRUE),
+      
+#      read.csv(file, check.names = TRUE, na.strings = "", dec = ".", quote = "\""),
+      error = function(e) {
+        message("Error loading file:", conditionMessage(e))
+        NULL
+      }
+    )
+    
+    # Check if the file is successfully loaded
+    if (!is.null(data)) {
+      # Increment the file counter
+      file_counter <- file_counter + 1
+      
+      # Store file and its data in the loaded_file_list
+      loaded_file_list[[file_counter]] <- list(file = file, data = data)
+      
+      # Print message indicating the file has been loaded
+      message("File", file, "has been loaded into R.")
+    }
+  }
+  }
+  return(loaded_file_list)
+  }
+
+tem <- GitHut_CSV_load()
+
+
+```
+
