@@ -83,7 +83,7 @@ Read_csv <- read.csv(CSV_path,check.names = TRUE,
 repository_url <- "https://api.github.com/repos/kohyarp/DATA607_Project3/contents/Data"
 
 
-GitHut_CSV_load <- function(repository_url = "https://api.github.com/repos/kohyarp/DATA607_Project3/contents/Data") {
+GitHub_CSV_load <- function(repository_url = "https://api.github.com/repos/kohyarp/DATA607_Project3/contents/Data") {
   # GitHub repository URL
   
   # Send a GET request to the GitHub API
@@ -166,7 +166,7 @@ GitHut_CSV_load <- function(repository_url = "https://api.github.com/repos/kohya
   return(loaded_file_list)
   }
 
-tem <- GitHut_CSV_load()
+tem <- GitHub_CSV_load()
 
 
 ```
