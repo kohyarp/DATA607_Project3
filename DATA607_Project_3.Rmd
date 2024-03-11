@@ -1,6 +1,6 @@
 ---
 title: "DATA607 Project III - Teamwork"
-author: "Koohyar Pooladvand"
+author: "Koohyar P., Anthony C, Victor T, & James N"
 date: "`r Sys.Date()`"
 output:
   pdf_document: default
