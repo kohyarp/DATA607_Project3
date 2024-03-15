@@ -1,6 +1,6 @@
 ---
 title: "DATA607 Project III - Teamwork"
-author: "Koohyar P., Anthony C, Victor T, & James N"
+authors: "Koohyar P, Anthony C, Victor T, & James N"
 date: "`r Sys.Date()`"
 output:
   pdf_document: default
@@ -17,14 +17,39 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Introduction
 
-While the presidential election season is in full swing, we decided to explore polling data sources that exist online.  There are several individual sources that could be found online; however, the website RealClear Politics is a location that gathers, summarizes, and presents the results of the various polls in one location.  It should be noted that, while this website is good of a summary view, the underlying polling data must be extracted from the various polling sources (if available) for further review and analysis.  The polling sources include Emerson College, The Economist Magazine, The New York Times/Sienna College, CBS News, and many others.  Some sources are free, while others incur a fee.  It should be noted that the polls tend to discriminate between “Registered Voters” (RV) and “Likely Voters” (LV), and the common belief is the LV are better more indicative of election results.  However, a Berkley Haas Study in 2020 reported that while the polls reached a 95% confidence level for statistical reporting, the actual election results only matched with the polls 60% of the time.
+While the presidential election season is in full swing, we decided to
+explore polling data sources that exist online. There are several
+individual sources that could be found online; however, the website
+RealClear Politics is a location that gathers, summarizes, and presents
+the results of the various polls in one location. It should be noted
+that, while this website is good of a summary view, the underlying
+polling data must be extracted from the various polling sources (if
+available) for further review and analysis. The polling sources include
+Emerson College, The Economist Magazine, The New York Times/Sienna
+College, CBS News, and many others. Some sources are free, while others
+incur a fee. It should be noted that the polls tend to discriminate
+between “Registered Voters” (RV) and “Likely Voters” (LV), and the
+common belief is the LV are better more indicative of election results.
+However, a Berkley Haas Study in 2020 reported that while the polls
+reached a 95% confidence level for statistical reporting, the actual
+election results only matched with the polls 60% of the time.
 
 ## Data Sources
-We are currently in discussion to identify the data sources for analysis, and the type of analysis we wish to discuss.  The sources are varied and include tables on websites, attached PDF documents, and CSV files.  Some will require us prepare the data through another platform before we are able to evaluate and analyze the data.  This also needs to include a matching/pairing of questions and response on polls to insure equivalency of the questions.  Data that has currently been identified include The New York Times/Sienna, Roanoke College, and Emerson College Polls.
+
+We are currently in discussion to identify the data sources for
+analysis, and the type of analysis we wish to discuss. The sources are
+varied and include tables on websites, attached PDF documents, and CSV
+files. Some will require us prepare the data through another platform
+before we are able to evaluate and analyze the data. This also needs to
+include a matching/pairing of questions and response on polls to insure
+equivalency of the questions. Data that has currently been identified
+include The New York Times/Sienna, Roanoke College, and Emerson College
+Polls.
 
 ## Code Initialization
 
-Here I load the required libraries and ensure all the required packages are installed before running the following blocks of codes.
+Here I load the required libraries and ensure all the required packages
+are installed before running the following blocks of codes.
 
 ```{r Code_initialization, echo=FALSE, message=FALSE}
 
@@ -50,14 +75,19 @@ library(jsonlite)
 
 #surpass the error message for dplyr to not show the masking
 suppressPackageStartupMessages(library(dplyr))
+suppressPackageStartupMessages(library(jsonlite))
 
 
 ```
 
-## Load files from GitHub 
+## Load files from GitHub
 
-All our files are stored in the GitHub `Data/*` directory for productivity and collaboration. In this section, I verify the list of files in the Data folder and then load them all into R. All files are in CSV format and are readily accessible by RStudio. However, since they originate from different sources, we must first tidy, clean, and organize them.
-
+All our files are stored in the GitHub `Data/*` directory for
+productivity and collaboration. In this section, I verify the list of
+files in the Data folder and then load them all into R. All files are in
+CSV format and are readily accessible by RStudio. However, since they
+originate from different sources, we must first tidy, clean, and
+organize them.
 
 ```{r load_files, echo=FALSE}
 
@@ -82,7 +112,70 @@ Read_csv <- read.csv(CSV_path,check.names = TRUE,
 
 repository_url <- "https://api.github.com/repos/kohyarp/DATA607_Project3/contents/Data"
 
+#Load all the relavant tile type from GitHub_raw
 
+GitHub_file_type <-  c("csv", "CSV", "txt", "TXT")  #Different types of file's extension to be loaded 
+
+GitHub_Get_file <- function(repository_url = "https://api.github.com/repos/kohyarp/DATA607_Project3/contents/Data" , GitHub_file_type = c("csv","txt")) {
+    
+  # Send a GET request to the GitHub API
+  response <- GET(repository_url)
+  #response <- GET(GitHub_raw)
+  #(response)
+  # Extract content from the response
+  #content <- content(response, "text")
+  
+  # Check if request was successful
+  if (http_type(response) == "application/json") {
+  # Parse JSON response
+  content <- content(response, as = "text")
+  file_list <- fromJSON(content)
+  
+  # Extract file names from the response
+  file_names <- file_list$name
+  #file_names <- sapply(file_list, function(x) x$name)
+  
+  # Filter out directories and unwanted files (like '..' and '.')
+  file_names <- file_names[file_names != ".." & file_names != "."]
+  # Replace spaces with %20 in file names
+  file_names <- URLencode(file_names)
+  
+  # Print the list of file names
+  #print(file_names)
+  # Initialize list to store files by type
+  files_by_type <- list()
+  
+  #GitHub API has error loading file from API but laod it correctly from Raw and following code is to help it, and I replaced it with raw to work. 
+  repository_url_raw <-  gsub("^https://api\\.github\\.com/repos", 
+                          "https://raw.githubusercontent.com", repository_url)
+   repository_url_raw <-  gsub("contents", "main", repository_url_raw)
+  
+    # Iterate through file names
+    for (file in file_names) {
+      for (type in GitHub_file_type) {
+        if (grepl(paste0("\\.", type, "$"), file)) {
+          file_url <- paste0(repository_url_raw, "/", file)  # Construct full URL using repository_url
+          files_by_type[[type]] <- c(files_by_type[[type]], file_url)  # Add file to list for its type
+          message("File", file, "with type", type, "has been identified in the repository.")
+        }
+      }
+    }
+
+    return(files_by_type)
+  } else {
+    # Print error message if request was not successful
+    print("Error: Unable to fetch file list from GitHub.")
+    return(NULL)  # Return NULL in case of error
+  }
+
+}
+
+
+#run the function and create a list of file for the different type of file to be loaded later
+Github_file_list <- GitHub_Get_file (repository_url = repository_url , GitHub_file_type = GitHub_file_type)
+
+
+#defien a funtion that get a list of csv fiels and laod them all from GitHub public library 
 GitHub_CSV_load <- function(repository_url = "https://api.github.com/repos/kohyarp/DATA607_Project3/contents/Data") {
   # GitHub repository URL
   
@@ -113,6 +206,7 @@ GitHub_CSV_load <- function(repository_url = "https://api.github.com/repos/kohya
 } else {
   # Print error message if request was not successful
   print("Error: Unable to fetch file list from GitHub.")
+  return(NULL)  # Return NULL in case of error
 }
   # Parse the content to extract file names
   #file_names <- gsub(".*<a href=\"([^\"]*)\".*", "\\1", content)
@@ -166,8 +260,81 @@ GitHub_CSV_load <- function(repository_url = "https://api.github.com/repos/kohya
   return(loaded_file_list)
   }
 
-tem <- GitHub_CSV_load()
+temp_files <- GitHub_CSV_load()
+
+GitHub_load_all <- function(file_list) {
+
+  # Initialize lists to store loaded data
+  loaded_csv_data <- list()
+  loaded_txt_data <- list()
+
+  # Loop through each type in the file list
+  for (type in names(file_list)) {
+    # Check if type is either "csv" or "txt"
+    if (type %in% c("csv", "txt")) {
+      for (file_url in file_list[[type]]) {
+        # Download file content using tryCatch for error handling
+        data <- tryCatch({
+          if (type == "csv") {
+            read.csv(file_url,check.names = TRUE,
+                     na.strings = "NA", dec = ".", quote = "\"",
+                     header = FALSE,
+                     encoding = "UTF-8",
+                     blank.lines.skip = TRUE)
+          } else {
+            readLines(file_url)
+          }
+        }, error = function(e) {
+          message("Error loading file:", file_url, ":", paste(e))
+          return(NULL)  # Return NULL on error for the specific file
+        })
+
+        # Check if data was loaded successfully (not NULL)
+        if (!is.null(data)) {
+          # Store data in the appropriate list based on type
+          if (type == "csv") {
+            loaded_csv_data[[tail(file_url, 1)]] <- data  # Use filename as key
+          } else {
+            loaded_txt_data[[tail(file_url, 1)]] <- data  # Use filename as key
+          }
+          message("File", tail(file_url, 1), "with type", type, "has been loaded.")
+        }
+      }
+    }
+  }
+
+  # Combine loaded data into a single list with type information
+  all_loaded_files <- list(
+    csv_data = loaded_csv_data,
+    txt_data = loaded_txt_data
+  )
+
+  return(all_loaded_files)
+}
+
+
+GitHub_loaded_list <- GitHub_load_all(Github_file_list)
+
+temp_csv_file <- temp_files_contents [[1]][[1]]
 
 
 ```
 
+## Tidying and data cleanup
+
+All files are loaded into `GitHub_loaded_list` in those sections fo the
+code, we clean up the data and change them to long format to be bale to
+do further analyses on them. The first step is to go through the data
+stored in each dataframe and attempt to understand their structure.
+
+```{r tidying, echo=TRUE}
+
+# go though the list and extact each data.frame to a tibble or simialr thing for csv files 
+#csv file has a better an already devided into a dataframe, the issue with the data is that it is not long and sorrectly strcutured. 
+
+for (i in length(GitHub_loaded_list[["csv_data"]])){
+  
+  
+}
+
+```
