@@ -1,0 +1,801 @@
+TREND: (If Republican or Republican leaner) If the Republican primary for president were being held today, and the candidates were: Donald Trump and Nikki Haley, for whom would you vote? (INCLUDES LEANERS) (Trend information is available upon request back through February 2023) 
+ 
+                     REGISTERED VOTERS............................................................. 
+                     REPUBLICANS/REPUBLICAN LEANERS................................................ 
+                     Feb 21  Jan 31  Dec 20  Nov 15  Nov 01  Sep 13  Aug 16  Jul 19  Jun 14  May 24 
+                     2024    2024    2023    2023    2023    2023    2023    2023    2023    2023   
+ 
+Trump                80      77      67      64      64      62      57      54      53      56     
+Haley                17      21      11       9       8       5       3       4       4       3     
+DeSantis             na      na      11      16      15      12      18      25      23      25     
+Hutchinson           na      na       -       -       -       1       1       -       1       -     
+Christie             na      na       3       2       3       2       3       3       4       2     
+Ramaswamy            na      na       4       4       3       6       5       2       3       1     
+Burgum               na      na      na       1       1       -       -       -       -      na     
+Scott                na      na      na      na       3       3       3       3       4       2     
+Pence                na      na      na      na      na       5       4       4       4       2     
+Elder                na      na      na      na      na       -       -       -       -       1     
+Hurd                 na      na      na      na      na       -       1       -      na      na     
+Suarez               na      na      na      na      na      na       -       -      na      na     
+Youngkin             na      na      na      na      na      na      na      na      na       1     
+Sununu               na      na      na      na      na      na      na      na      na       1     
+Noem                 na      na      na      na      na      na      na      na      na       1     
+Cheney               na      na      na      na      na      na      na      na      na       1     
+Johnson              na      na      na      na      na      na      na      na      na       -     
+Pompeo               na      na      na      na      na      na      na      na      na      na     
+Cruz                 na      na      na      na      na      na      na      na      na      na     
+Hogan                na      na      na      na      na      na      na      na      na      na     
+SMONE ELSE            -       -       -       1       1       -       -       -       -       -     
+WLDN'T VOTE           -       -       1       -       -       -       -       -       1       -     
+UNDECIDED             2       1       2       2       4       3       4       3       3       4     
+REFUSED               -       -       -       -       -       1       1       -       -       -     
+ 
+ 
+TREND: (If Democrat or Democratic leaner) If the Democratic primary for president were being held today, and the candidates were: Joe Biden and Dean Phillips, for whom would you vote? (INCLUDES LEANERS) 
+ 
+                     REGISTERED VOTERS..................................................... 
+                     DEMOCRATS/DEMOCRATIC LEANERS.......................................... 
+                     Feb 21  Jan 31  Dec 20  Nov 15  Nov 01  Sep 13  Aug 16  Jul 19  Jun 14 
+                     2024    2024    2023    2023    2023    2023    2023    2023    2023 
+ 
+Biden                80      78      75      74      77      73      72      71      70 
+Phillips             15       6       5       4       6      na      na      na      na 
+Williamson           na      11      13      12       8       8       9       7       8 
+Uygur                na      na      na       1       2      na      na      na      na 
+Kennedy              na      na      na      na      na      11      13      14      17 
+SMONE ELSE            1       -       1       1       1       -       1       1       - 
+WLDN'T VOTE           1       1       -       1       1       1       -       1       - 
+UNDECIDED             4       4       5       5       5       7       3       5       4 
+REFUSED               -       -       1       1       1       1       1       1       - 
+ 
+ 
+  
+TREND: If the election for president were being held today, and the candidates were Joe Biden the Democrat and Donald Trump the Republican, for whom would you vote? (INCLUDES LEANERS) 
+ 
+                     REGISTERED VOTERS.......................... 
+                                     SMONE   WLDN'T  UNDEC- 
+                     Biden   Trump   ELSE    VOTE    IDED    REF 
+ 
+Feb 21, 2024         49      45       2       2       1       1 
+Jan 31, 2024         50      44       -       2       2       1 
+Dec 20, 2023         47      46       2       2       2       - 
+Nov 15, 2023         46      48       1       3       1       1 
+Nov 01, 2023         47      46       1       3       2       1 
+Sep 13, 2023         47      46       2       2       2       1 
+Aug 16, 2023         47      46       2       2       3       1 
+Jul 19, 2023         49      44       2       2       2       2 
+Jun 14, 2023         48      44       2       3       2       1 
+May 24, 2023         48      46       1       2       1       2 
+Mar 29, 2023         48      46       1       2       1       1 
+Mar 15, 2023         49      45       1       2       2       2 
+Feb 16, 2023         48      46       1       2       1       1 
+ 
+ 
+TREND: If the election for president were being held today, and the candidates were Joe Biden the Democrat, Donald Trump the Republican, Robert F. Kennedy Jr. running as an independent candidate, Cornel West running as an independent candidate, and Jill Stein the Green Party candidate, for whom would you vote? (INCLUDES LEANERS) 
+ 
+                     REGISTERED VOTERS.................................................. 
+                                                             SMONE   WLDN'T  UNDEC- 
+                     Biden   Trump   Kennedy West    Stein   ELSE    VOTE    IDED    REF 
+ 
+Feb 21, 2024         38      37      15       3       3       -       1       2       - 
+Jan 31, 2024         39      37      14       3       2       -       1       3       1 
+Dec 20, 2023         36      38      16       3       3       1       1       3       - 
+Nov 15, 2023         35      38      17       3       3       -       1       2       - 
+Nov 01, 2023         36      35      19       6      na       1       1       2       - 
+ 
+ 
+TREND: If the election for president were being held today, and the candidates were Joe Biden the Democrat and Nikki Haley the Republican, for whom would you vote? (INCLUDES LEANERS) 
+ 
+                     REGISTERED VOTERS.......................... 
+                                     SMONE   WLDN'T  UNDEC- 
+                     Biden   Haley   ELSE    VOTE    IDED    REF 
+ 
+Feb 21, 2024         43      46       2       6       2       2 
+Jan 31, 2024         42      47       2       5       3       1 
+ 
+ 
+TREND: If the election for president were being held today, and the candidates were Joe Biden the Democrat, Nikki Haley the Republican, Robert F. Kennedy Jr. running as an independent candidate, Cornel West running as an independent candidate, and Jill Stein the Green Party candidate, for whom would you vote? (INCLUDES LEANERS) 
+ 
+                     REGISTERED VOTERS.................................................. 
+                                                             SMONE   WLDN'T  UNDEC- 
+                     Biden   Haley   Kennedy West    Stein   ELSE    VOTE    IDED    REF 
+ 
+Feb 21, 2024         35      27      24       5       3       1       2       2       1 
+Jan 31, 2024         36      29      21       3       2       1       3       3       1 
+ 
+TREND: Is your opinion of Donald Trump favorable, unfavorable or haven't you heard enough about him? 
+ 
+                     REGISTERED VOTERS.......... 
+                                     Hvn't 
+                     Fav     Unfav   HrdEn   REF 
+ 
+Feb 21, 2024         41      58       1       1 
+Jan 31, 2024         37      59       2       2 
+Dec 20, 2023         41      54       3       2 
+Nov 15, 2023         42      55       2       2 
+Nov 01, 2023         39      57       1       3 
+Oct 17, 2023         34      58       4       5 
+Sep 13, 2023         41      54       2       2 
+Aug 16, 2023         38      57       2       2 
+Jul 19, 2023         38      57       3       2 
+Jun 14, 2023         37      59       3       1 
+May 24, 2023         40      56       2       2 
+Mar 29, 2023         36      58       2       3 
+Mar 15, 2023         36      58       2       4 
+Feb 16, 2023         37      57       3       3 
+Dec 14, 2022         31      59       6       4 
+Nov 22, 2022         36      55       4       4 
+Aug 31, 2022         34      57       5       3 
+Jul 20, 2022         37      55       4       4 
+Oct 19, 2021         41      52       3       4 
+May 26, 2021         38      56       2       3 
+Dec 10, 2020         43      52       3       2 
+Jul 15, 2020         34      61       3       2 
+Jun 18, 2020         40      56       2       2 
+May 20, 2020         40      55       3       3 
+Apr 08, 2020         41      52       4       3 
+Mar 09, 2020         39      58       1       2 
+Feb 10, 2020         42      55       1       2 
+Dec 10, 2019         40      57       2       2 
+Oct 14, 2019         39      56       2       3 
+Sep 25, 2019         38      55       4       3 
+May 21, 2019         38      57       2       3 
+Jan 15, 2019         41      56       2       2 
+Dec 19, 2018         40      56       2       2 
+Feb 21, 2018         37      59       2       2 
+Jan 17, 2018         38      58       3       1 
+Oct 11, 2017         39      57       2       2 
+Sep 27, 2017         36      57       4       2 
+Aug 23, 2017         36      60       3       2 
+Aug 17, 2017         39      58       2       1 
+Aug 02, 2017         34      61       2       2 
+Jun 29, 2017         41      55       1       2 
+Jun 07, 2017         35      60       2       3 
+May 24, 2017         37      57       4       2 
+May 10, 2017         35      58       4       2 
+Apr 19, 2017         39      56       3       2 
+Apr 04, 2017         36      59       3       2 
+Mar 22, 2017         36      57       5       2 
+Mar 07, 2017         43      53       3       1 
+Feb 22, 2017         39      55       4       2 
+Feb 07, 2017         43      52       3       2 
+Jan 26, 2017         39      52       6       2 
+Jan 10, 2017         37      51       8       4 
+Nov 22, 2016         44      46       6       3 High Fav 
+Jun 29, 2016         34      57       6       2 
+Jun 01, 2016         34      59       4       2 
+Cont’d 
+TREND cont’d: Is your opinion of Donald Trump favorable, unfavorable or haven't you heard enough about him? 
+ 
+                     REGISTERED VOTERS.......... 
+                                     Hvn't 
+                     Fav     Unfav   HrdEn   REF 
+ 
+Mar 23, 2016         33      61       5       1 
+Feb 18, 2016         37      57       4       2 
+Feb 05, 2016         34      59       5       2 
+Dec 22, 2015         33      59       5       3 
+Dec 02, 2015         35      57       5       3 
+Nov 04, 2015         37      56       5       2 
+Sep 24, 2015         36      57       5       2 
+Aug 27, 2015         36      54       8       2 
+Jul 30, 2015         27      59      13       2 
+May 28, 2015         20      69      10       1 Low Fav 
+ 
+ 
+TREND: Is your opinion of Joe Biden favorable, unfavorable or haven't you heard enough about him? 
+ 
+                     REGISTERED VOTERS.......... 
+                                     Hvn't 
+                     Fav     Unfav   HrdEn   REF 
+ 
+Feb 21, 2024         41      56       2       1 
+Jan 31, 2024         40      55       3       2 
+Dec 20, 2023         38      58       3       2 
+Nov 15, 2023         37      59       3       1 
+Nov 01, 2023         40      56       2       2 
+Oct 17, 2023         36      56       4       4 Low Fav 
+Sep 13, 2023         39      54       3       3 
+Aug 16, 2023         40      55       3       2 
+Jul 19, 2023         40      54       4       2 
+Jun 14, 2023         42      54       2       2 
+May 24, 2023         39      54       4       2 
+Mar 29, 2023         37      56       4       3 
+Mar 15, 2023         40      54       4       2 
+Feb 16, 2023         38      54       4       3 
+Dec 14, 2022         43      49       7       2 
+Nov 22, 2022         40      53       6       2 
+Aug 31, 2022         40      52       7       2 
+Jul 20, 2022         37      57       4       3 
+Oct 19, 2021         40      50       7       2 
+May 26, 2021         49      44       5       3 
+Feb 03, 2021         54      38       5       2 High Fav 
+Dec 10, 2020         45      44       9       2 
+Jul 15, 2020         45      43       9       3 
+Jun 18, 2020         42      46      10       3 
+May 20, 2020         45      41      12       2 
+Apr 08, 2020         43      43      12       2 
+Mar 09, 2020         45      40      12       3 
+Feb 10, 2020         43      50       5       2 
+Dec 10, 2019         44      47       7       2 
+Oct 14, 2019         41      43      14       3 
+Sep 25, 2019         45      45       9       2 
+May 21, 2019         49      39      11       2 
+Dec 19, 2018         53      33      12       2 
+Jan 17, 2018         53      29      17       1 
+Sep 24, 2015         50      34      14       1 
+Aug 27, 2015         48      39      11       1 
+Cont’d 
+TREND cont’d: Is your opinion of Joe Biden favorable, unfavorable or haven't you heard enough about him? 
+ 
+                     REGISTERED VOTERS.......... 
+                                     Hvn't 
+                     Fav     Unfav   HrdEn   REF 
+ 
+Jul 30, 2015         49      39      10       2 
+May 28, 2015         43      41      12       3 
+Jul 08, 2014         42      44      14       - 
+Dec 11, 2013         37      48      13       2 
+Jul 12, 2013         38      44      16       2 
+May 31, 2013         37      44      19       1 
+Feb 08, 2013         46      41      11       2 
+Nov 12, 2008         50      23      25       2 
+ 
+ 
+TREND: Is your opinion of Robert F. Kennedy Jr. favorable, unfavorable or haven't you heard enough about him? (* Low also 24%) 
+ 
+                     REGISTERED VOTERS.......... 
+                                     Hvn't 
+                     Fav     Unfav   HrdEn   REF 
+ 
+Feb 21, 2024         29      32      38       1 
+Jan 31, 2024         24      33      42       1 Low Fav 
+Dec 20, 2023         30      32      37       1 
+Nov 15, 2023         32      36      30       2 
+Nov 01, 2023         31      36      31       2 
+Oct 17, 2023         24      32      42       3 * 
+Sep 13, 2023         32      35      31       1 
+Aug 16, 2023         34      35      29       2 
+Jul 19, 2023         35      32      32       2 High Fav 
+Jun 14, 2023         31      26      43       1 
+ 
+ 
+TREND: Is your opinion of Nikki Haley favorable, unfavorable or haven't you heard enough about her? 
+ 
+                     REGISTERED VOTERS.......... 
+                                     Hvn't 
+                     Fav     Unfav   HrdEn   REF 
+ 
+Feb 21, 2024         29      42      27       1 
+Jan 31, 2024         28      43      28       1 
+Dec 20, 2023         29      33      36       1 
+Nov 15, 2023         29      34      36       1 
+Nov 01, 2023         24      35      39       2 
+Sep 13, 2023         31      30      38       1 High Fav 
+Aug 16, 2023         26      35      39       1  
+Jul 19, 2023         22      34      43       1 
+Jun 14, 2023         23      35      40       1 
+May 24, 2023         19      27      52       2 Low Fav 
+Mar 29, 2023         21      25      53       2 
+Mar 15, 2023         21      29      49       1 
+Feb 16, 2023         21      23      54       2 
+ 
+ 
+  
+TREND: Is your opinion of Kamala Harris favorable, unfavorable or haven't you heard enough about her? 
+ 
+                     REGISTERED VOTERS.......... 
+                                     Hvn't 
+                     Fav     Unfav   HrdEn   REF 
+ 
+Feb 21, 2024         33      52      14       1 
+Sep 13, 2023         36      52      10       1 
+Nov 22, 2022         30      50      18       2 
+Jul 20, 2022         27      51      20       2 
+Feb 03, 2021         46      35      17       2 High Fav 
+Sep 25, 2019         27      39      32       2 
+May 21, 2019         27      30      41       1 
+Dec 19, 2018         20      22      57       - Low Fav 
+ 
+ 
+TREND: Do you approve or disapprove of the way Joe Biden is handling his job as president? 
+ 
+                     REGISTERED VOTERS.... 
+                     App     Dis     DK/NA 
+ 
+Feb 21, 2024         40      57       3 
+Jan 31, 2024         41      55       4 
+Dec 20, 2023         38      58       4 
+Nov 15, 2023         37      59       5 
+Nov 01, 2023         39      58       4 
+Oct 17, 2023         38      56       6 
+Sep 13, 2023         39      55       6 
+Aug 16, 2023         39      55       6 
+Jul 19, 2023         40      53       7 
+Jun 14, 2023         42      54       4 
+May 24, 2023         38      57       5 
+Mar 29, 2023         38      57       5 
+Mar 15, 2023         39      55       5 
+Feb 16, 2023         40      55       5 
+Jan 18, 2023         38      53       9 
+Dec 14, 2022         43      49       8 
+Nov 22, 2022         36      55       9 
+Nov 02, 2022         37      54       9 
+Aug 31, 2022         41      53       6 
+Jul 20, 2022         33      59       8 Low App 
+Jun 22, 2022         35      58       7 
+Jun 08, 2022         35      56       9 
+May 18, 2022         38      55       7 
+Apr 27, 2022         40      51       9 
+Apr 13, 2022         35      55      10 
+Apr 06, 2022         40      54       6 
+Mar 30, 2022         38      55       7 
+Mar 16, 2022         40      53       7 
+Mar 07, 2022         40      51       9 
+Feb 28, 2022         38      52      10 
+Feb 16, 2022         37      56       7 
+Jan 12, 2022         35      54      11 
+Nov 18, 2021         38      53       9 
+Oct 19, 2021         40      51       9 
+Oct 06, 2021         40      53       7 
+Sep 14, 2021         44      50       7 
+Aug 04, 2021         47      44       9 
+May 26, 2021         49      42       8 
+Apr 14, 2021         50      42       8 
+Feb 17, 2021         52      38      10 High App 
+Feb 03, 2021         50      36      14 
+TREND: Do you approve or disapprove of the way Joe Biden is handling his job as president? COMBINED WITH: (If approve/disapprove) Do you strongly or somewhat approve/disapprove? (* Low also 16%) 
+ 
+                     REGISTERED VOTERS.................... 
+                     APPROVE......   DISAPPROVE..... 
+                     Strngly Smwht   Smwht   Strngly DK/NA 
+ 
+Feb 21, 2024         21      19      12      45       3 
+Jan 31, 2024         20      20      11      44       5 
+Dec 20, 2023         20      18      12      46       5 
+Nov 15, 2023         19      17       9      49       6 
+Nov 01, 2023         19      19      11      46       4 
+Oct 17, 2023         20      18      11      44       7 
+Sep 13, 2023         20      19       9      46       6 
+Aug 16, 2023         19      20      11      44       6 
+Jul 19, 2023         20      20      10      42       7 
+Jun 14, 2023         22      20      11      42       4 
+May 24, 2023         20      18      12      44       5 
+Mar 29, 2023         18      19      12      45       6 
+Mar 15, 2023         18      21      13      43       6 
+Feb 16, 2023         19      21      11      44       6 
+Jan 18, 2023         20      18       7      45      10 
+Dec 14, 2022         21      21       9      40       9 
+Nov 22, 2022         20      16       9      45      10 
+Nov 02, 2022         21      16       5      48       9 
+Aug 31, 2022         20      21       8      44       7 
+Jul 20, 2022         16      17      11      47       9 Low App Strngly 
+Jun 22, 2022         18      16       9      49       8 
+Jun 08, 2022         16      19       8      47      10 * 
+May 18, 2022         19      19       8      47       7 
+Apr 27, 2022         20      20       7      44       9 
+Apr 13, 2022         20      15       9      45      11 
+Apr 06, 2022         21      18       7      47       7 
+Mar 30, 2022         22      14      10      45       9 
+Mar 16, 2022         21      19       7      46       8 
+Mar 07, 2022         22      17       7      43      11 
+Feb 28, 2022         19      18       7      45      11 
+Feb 16, 2022         19      18       9      46       8 
+Jan 12, 2022         19      16      10      43      12 
+Nov 18, 2021         23      14       7      46      10 
+Oct 19, 2021         20      20       6      45       9 
+Oct 06, 2021         21      19       8      45       8 
+Sep 14, 2021         27      16       7      43       8 
+Aug 04, 2021         29      17       5      39      10 
+May 26, 2021         35      14       5      37      10 
+Apr 14, 2021         35      14       4      38       9 
+Feb 17, 2021         40      11       4      34      11 High App Strngly 
+Feb 03, 2021         38      11       5      32      15 
+ 
+ 
+  
+TREND: Do you approve or disapprove of the way Joe Biden is handling the economy?  
+(* Low also 29%) 
+ 
+                     REGISTERED VOTERS.... 
+                     App     Dis     DK/NA 
+ 
+Feb 21, 2024         42      55       3 
+Jan 31, 2024         42      55       3 
+Dec 20, 2023         39      56       5 
+Nov 15, 2023         37      59       3 
+Nov 01, 2023         40      57       3 
+Oct 17, 2023         38      57       5 
+Sep 13, 2023         35      60       4 
+Aug 16, 2023         39      56       4 
+Jul 19, 2023         39      57       4 
+Jun 14, 2023         41      55       4 
+May 24, 2023         36      60       4 
+Mar 29, 2023         35      60       5 
+Mar 15, 2023         38      58       4 
+Feb 16, 2023         37      58       5 
+Jan 18, 2023         36      60       5 
+Dec 14, 2022         39      56       5 
+Nov 22, 2022         33      63       4 
+Nov 02, 2022         35      60       5 
+Aug 31, 2022         39      57       4 
+Jul 20, 2022         29      65       6 Low App 
+Jun 22, 2022         33      63       4 
+Jun 08, 2022         29      64       6 * 
+May 18, 2022         33      62       5 
+Apr 27, 2022         35      60       5 
+Apr 06, 2022         37      59       4 
+Mar 30, 2022         36      58       7 
+Mar 16, 2022         37      57       6 
+Feb 16, 2022         35      60       5 
+Jan 12, 2022         36      57       7 
+Nov 18, 2021         35      58       6 
+Oct 06, 2021         41      55       5 
+Sep 14, 2021         45      51       4 
+Aug 04, 2021         45      50       5 
+May 26, 2021         47      45       8 
+Apr 14, 2021         50      44       7 High App 
+Feb 17, 2021         49      39      13 
+ 
+ 
+TREND: Do you approve or disapprove of the way Joe Biden is handling foreign policy? 
+ 
+                     REGISTERED VOTERS.... 
+                     App     Dis     DK/NA 
+ 
+Feb 21, 2024         36      60       4 
+Jan 31, 2024         37      57       5 
+Dec 20, 2023         35      59       6 
+Nov 15, 2023         34      61       5 Low App 
+Nov 01, 2023         36      59       5 
+Oct 17, 2023         37      54       9 
+Aug 16, 2023         38      55       7 
+Jul 19, 2023         41      52       7 
+Jun 14, 2023         40      54       7 
+May 24, 2023         41      54       5 
+Mar 29, 2023         38      57       5 
+Mar 15, 2023         41      52       6 
+Feb 16, 2023         37      56       7 
+Cont’d 
+TREND cont’d: Do you approve or disapprove of the way Joe Biden is handling foreign policy? 
+ 
+                     REGISTERED VOTERS.... 
+                     App     Dis     DK/NA 
+ 
+Jan 18, 2023         38      54       8 
+Dec 14, 2022         39      52       9 
+Nov 22, 2022         38      54       8 
+Nov 02, 2022         36      56       7 
+Aug 31, 2022         40      54       7 
+Jul 20, 2022         37      55       8 
+Apr 27, 2022         39      54       7 
+Mar 16, 2022         41      53       6 
+Feb 16, 2022         36      56       8 
+Jan 12, 2022         35      55      10 
+Nov 18, 2021         35      54      11 
+Oct 06, 2021         36      58       6 
+Sep 14, 2021         36      57       7 
+Aug 04, 2021         42      46      11 High App 
+May 26, 2021         39      46      15 
+ 
+ 
+TREND: Do you approve or disapprove of the way Joe Biden is handling the situation at the Mexican border? 
+ 
+                     REGISTERED VOTERS.... 
+                     App     Dis     DK/NA 
+ 
+Feb 21, 2024         29      63       8 
+Jan 31, 2024         28      63      10 
+Dec 20, 2023         27      63      11 
+Nov 15, 2023         26      65       9 
+Nov 01, 2023         27      64       9 
+Oct 17, 2023         23      63      13 
+Mar 15, 2023         24      65      11 
+Jan 18, 2023         17      70      13 Low App 
+Nov 02, 2022         26      62      12 
+Aug 31, 2022         28      60      12 
+May 18, 2022         28      58      13 
+Apr 27, 2022         29      60      11 
+Oct 06, 2021         24      67       9 
+Apr 14, 2021         30      56      14 High App 
+ 
+ 
+TREND: Do you approve or disapprove of the way Joe Biden is handling gun violence?  
+(* High also 33%) 
+ 
+                     REGISTERED VOTERS.... 
+                     App     Dis     DK/NA 
+ 
+Feb 21, 2024         32      59       9 
+Nov 01, 2023         32      60       8 
+Jul 20, 2022         33      61       7 High App 
+Jun 22, 2022         31      58      11 
+Jun 08, 2022         33      59       7 * 
+Feb 16, 2022         26      62      12 Low App 
+Aug 04, 2021         33      57      10 * 
+ 
+ 
+  
+TREND: Do you approve or disapprove of the way Joe Biden is handling the response to the war between Israel and Hamas? 
+ 
+                     REGISTERED VOTERS.... 
+                     App     Dis     DK/NA 
+ 
+Feb 21, 2024         31      62       7 
+Jan 31, 2024         34      56      10 
+Dec 20, 2023         34      54      11 
+Nov 15, 2023         37      54       9 
+Nov 01, 2023         42      46      12 
+ 
+ 
+TREND: Do you approve or disapprove of the way Joe Biden is handling the response to Russia’s invasion of Ukraine? (* Low also 40%) 
+ 
+                     REGISTERED VOTERS.... 
+                     App     Dis     DK/NA 
+ 
+Feb 21, 2024         47      48       5 
+Jan 31, 2024         47      46       8 
+Dec 20, 2023         45      48       7 
+Nov 15, 2023         47      49       5 
+Nov 01, 2023         47      46       7 
+Oct 17, 2023         47      45       8 
+Sep 13, 2023         43      51       6 
+Aug 16, 2023         44      51       6 
+Jul 19, 2023         45      48       8 
+Jun 14, 2023         46      47       7 
+May 24, 2023         46      48       6 
+Mar 29, 2023         42      52       6 
+Mar 15, 2023         48      46       6 High App 
+Feb 16, 2023         43      49       8 
+Jan 18, 2023         46      46       8 
+Dec 14, 2022         45      46       9 
+Nov 22, 2022         45      47       9 
+Nov 02, 2022         43      49       8 
+Jul 20, 2022         41      51       8 
+Jun 22, 2022         40      52       8 Low App 
+Jun 08, 2022         43      50       7 
+May 18, 2022         45      49       6 
+Apr 27, 2022         45      48       7 
+Apr 13, 2022         40      49      11 * 
+Apr 06, 2022         43      51       6 
+Mar 30, 2022         45      45      10 
+Mar 16, 2022         43      50       7 
+Mar 07, 2022         43      46      11 
+Feb 28, 2022         40      47      13 * 
+ 
+ 
+  
+TREND: In your opinion, what is the most urgent issue facing the country today: the economy, climate change, health care, racial inequality, immigration, abortion, gun violence, crime, preserving democracy in the United States, or international conflicts? 
+ 
+                     REGISTERED VOTERS..... 
+                     Feb 21  Jan 31  Nov 15 
+                     2024    2024    2023 
+ 
+Economy              20      20      28 
+Climate change        4       4       5 
+Health care           5       6       5 
+Racial inequality     4       3       3 
+Immigration          17      20      12 
+Abortion              5       5       3 
+Gun violence         10       6       8 
+Crime                 4       3       4 
+Preserving democracy 21      24      21 
+Intl conflicts        5       6       8 
+SOMETHING ELSE(VOL)   3       3       3 
+DK/NA                 1       2       1 
+ 
+ 
+TREND: In deciding your vote for president, how important is the vice-presidential candidate: very important, somewhat important, not so important, or not important at all? 
+ 
+                     REGISTERED VOTERS.................... 
+                     Very    Smwht   NotSo   NotImp 
+                     Imprnt  Imprnt  Imprnt  Atall   DK/NA 
+ 
+Feb 21, 2024         45      42       8       4       - 
+Jun 18, 2020         55      33       5       6       1 
+ 
+ 
+TREND: Do you think Joe Biden is too old to effectively serve another 4-year term as president, or not? 
+ 
+                     REGISTERED VOTERS.... 
+                     Yes     No      DK/NA 
+ 
+Feb 21, 2024         67      31       2 
+Sep 13, 2023         68      28       4 
+May 24, 2023         65      32       3 
+ 
+ 
+TREND: Do you think Donald Trump is too old to effectively serve another 4-year term as president, or not? 
+ 
+                     REGISTERED VOTERS.... 
+                     Yes     No      DK/NA 
+ 
+Feb 21, 2024         41      57       3 
+Sep 13, 2023         34      63       3 
+May 24, 2023         36      59       5 
+ 
+ 
+TREND: Would you say that Joe Biden is ethical, or not? 
+ 
+                     REGISTERED VOTERS.... 
+                     Yes     No      DK/NA 
+ 
+Feb 21, 2024         49      47       4 
+ 
+ 
+TREND: Would you say that Donald Trump is ethical, or not? 
+ 
+                     REGISTERED VOTERS.... 
+                     Yes     No      DK/NA 
+ 
+Feb 21, 2024         29      68       3 
+ 
+ 
+TREND: Would you say that Joe Biden cares about average Americans, or not?  
+(* Low also 48%, ** High also 61%) 
+ 
+                     REGISTERED VOTERS.... 
+                     Yes     No      DK/NA 
+ 
+Feb 21, 2024         51      47       2 
+Apr 06, 2022         48      49       3 Low Yes 
+Nov 18, 2021         48      46       5 * 
+Oct 06, 2021         51      47       2 
+Apr 14, 2021         57      39       4 
+Feb 03, 2021         61      36       3 High Yes 
+Jul 15, 2020         59      33       8 
+Jun 18, 2020         56      36       8 
+May 20, 2020         61      30       9 ** 
+Mar 09, 2020         59      32       9 
+ 
+ 
+TREND: Would you say that Donald Trump cares about average Americans, or not?  
+(* Low also 37%) 
+ 
+                     REGISTERED VOTERS.... 
+                     Yes     No      DK/NA 
+ 
+Feb 21, 2024         42      57       1 
+Jul 15, 2020         37      61       2 Low Yes 
+Jun 18, 2020         43      56       1 
+May 20, 2020         42      56       2 
+Mar 09, 2020         43      54       3 
+Feb 10, 2020         44      55       2 
+Mar 05, 2019         39      58       3  
+Jan 15, 2019         43      55       2 
+Nov 20, 2018         42      53       4 
+Sep 10, 2018         41      55       4 
+Jul 03, 2018         43      55       2 
+Jun 06, 2018         42      55       3 
+Mar 21, 2018         43      53       4 
+Jan 25, 2018         40      57       3 
+Jan 10, 2018         38      59       2 
+Dec 19, 2017         37      62       2 * 
+Nov 14, 2017         39      59       2 
+Oct 11, 2017         44      54       2 
+Sep 27, 2017         42      56       2 
+Aug 23, 2017         40      57       3 
+Aug 17, 2017         42      56       2 
+Aug 02, 2017         39      59       2 
+Jun 29, 2017         44      55       2 
+Jun 07, 2017         40      58       3 
+May 24, 2017         42      56       2 
+May 10, 2017         38      59       3 
+Apr 19, 2017         42      57       2 
+Apr 04, 2017         39      57       4 
+Mar 22, 2017         40      57       3 
+Mar 07, 2017         46      52       3 
+Cont’d 
+TREND cont’d: Would you say that Donald Trump cares about average Americans, or not?  
+(* Low also 37%) 
+ 
+                     REGISTERED VOTERS.... 
+                     Yes     No      DK/NA 
+ 
+Feb 22, 2017         44      53       3 
+Feb 07, 2017         45      52       3 
+Jan 26, 2017         44      53       3 
+Jan 10, 2017         44      52       3 
+Nov 22, 2016         51      45       3 High Yes 
+ 
+ 
+TREND: Do you think Joe Biden has the kind of personality and temperament it takes to serve effectively as president, or not? 
+ 
+                     REGISTERED VOTERS.... 
+                     Yes     No      DK/NA 
+ 
+Feb 21, 2024         49      50       1 
+ 
+ 
+TREND: Do you think Donald Trump has the kind of personality and temperament it takes to serve effectively as president, or not? 
+ 
+                     REGISTERED VOTERS.... 
+                     Yes     No      DK/NA 
+ 
+Feb 21, 2024         37      61       2 
+ 
+ 
+TREND: Do you think Joe Biden has the physical fitness to serve a second presidential term, or not? 
+ 
+                     REGISTERED VOTERS.... 
+                     Yes     No      DK/NA 
+ 
+Feb 21, 2024         35      62       3 
+ 
+ 
+TREND: Do you think Donald Trump has the physical fitness to serve a second presidential term, or not? 
+ 
+                     REGISTERED VOTERS.... 
+                     Yes     No      DK/NA 
+ 
+Feb 21, 2024         60      37       4 
+ 
+ 
+TREND: Do you think Joe Biden has the mental fitness to serve a second presidential term, or not? 
+ 
+                     REGISTERED VOTERS.... 
+                     Yes     No      DK/NA 
+ 
+Feb 21, 2024         34      64       2 
+ 
+ 
+  
+TREND: Do you think Donald Trump has the mental fitness to serve a second presidential term, or not? 
+ 
+                     REGISTERED VOTERS.... 
+                     Yes     No      DK/NA 
+ 
+Feb 21, 2024         48      51       1 
+ 
+ 
+TREND: Do you support or oppose the United States sending more military aid to Israel for their efforts in the war with Hamas? 
+ 
+                     REGISTERED VOTERS.... 
+                     Sup     Opp     DK/NA 
+ 
+Feb 21, 2024         44      48       8 
+Dec 20, 2023         45      46       9 
+Nov 16, 2023         54      39       7 
+Nov 02, 2023         51      41       7 
+ 
+ 
+TREND: Do you support or oppose the United States sending more military aid to Ukraine for their efforts in the war with Russia? 
+ 
+                     REGISTERED VOTERS.... 
+                     Sup     Opp     DK/NA 
+ 
+Feb 21, 2024         56      40       4 
+Dec 20, 2023         55      38       7 
+Nov 16, 2023         54      41       5 
+Nov 02, 2023         53      42       5 
+ 
+ 
+TREND: How important do you think U.S. membership in NATO, the North Atlantic Treaty Organization, is for the security of the U.S.; very important, somewhat important, not so important, or not important at all? 
+ 
+                     REGISTERED VOTERS.................... 
+                     Very    Smwht   NotSo   NotImp 
+                     Imprnt  Imprnt  Imprnt  Atall   DK/NA 
+ 
+Feb 21, 2024         57      26       9       7       2 
+Apr 06, 2022         52      28       9       9       3 
+ 
+ 
+TREND: Which comes closer to your point of view about NATO: other NATO countries don't contribute enough as members and the U.S. should be independent from NATO or NATO plays an important role in global security and the U.S. should remain a member of NATO? 
+ 
+                     REGISTERED VOTERS.... 
+                     Inde-   Remain 
+                     pendent Member  DK/NA 
+ 
+Feb 21, 2024         25      67       8 
+Apr 06, 2022         25      67       8 
+ 
+ 
+  
+TREND: As you may know, former President Donald Trump recently said if re-elected he would not protect NATO allies who do not meet their NATO spending targets and he would encourage Russia to do whatever they want against those NATO allies. Do you think this is a good idea or a bad idea? 
+ 
+                     REGISTERED VOTERS.... 
+                     Good    Bad    
+                     Idea    Idea    DK/NA 
+ 
+Feb 21, 2024         18      71      11 
+
