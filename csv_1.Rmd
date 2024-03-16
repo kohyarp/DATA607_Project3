@@ -1,0 +1,56 @@
+---
+title: "csv1"
+author: "Victor Torres"
+date: "2024-03-16"
+output: html_document
+---
+#load csv file into R and display data(head, dim, tail)
+```{r}
+project3<-read.csv('https://raw.githubusercontent.com/kohyarp/DATA607_Project3/main/Data/NYT_Sienna%20Poll_table_1.csv')
+dim(project3)
+head(project3)
+tail(project3)
+```
+#load libraries required for project
+```{r}
+library(dplyr)
+library(tidyverse)
+library(readxl)
+library(rvest)
+library(knitr)
+library(openxlsx)
+library(httr)
+library(jsonlite)
+```
+#Rename columns
+```{r}
+colnames(project3)[1] = "header"
+colnames(project3)[2] = "do you"
+colnames(project3)[3] = "likely_electorate"
+colnames(project3)[4] = "Gender_men"
+colnames(project3)[5] = "Gender_women"
+colnames(project3)[6] = "Age_18-29"
+colnames(project3)[7] = "Age_30-44"
+colnames(project3)[8] = "Age_45-64"
+colnames(project3)[9] = "Age_65+"
+colnames(project3)[10] = "Ethnicity_White"
+colnames(project3)[11] = "Ethnicity_Black"
+likely_electorate <- colnames(project3[3:length(project3)])
+glimpse(project3)
+```
+#remove unnecesary columns
+```{r}
+project3 <- project3[,-c(1,2)]
+project3
+
+```
+#Remove unnecesary rows
+```{r}
+project3 %>%  filter(!row_number() %in% c(1, 2, 3))
+```
+```{r}
+library(ggplot2)
+ggplot(project3) +
+  geom_point(mapping = aes(x=likely_electorate, y=Gender_men))
+```
+
