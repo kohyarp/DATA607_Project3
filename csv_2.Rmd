@@ -1,0 +1,45 @@
+---
+title: "project3"
+author: "Victor Torres"
+date: "2024-03-16"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+library(dplyr)
+library(tidyverse)
+library(readxl)
+library(rvest)
+library(knitr)
+library(openxlsx)
+library(httr)
+library(jsonlite)
+```
+```{r}
+project_raw<-read.csv('https://raw.githubusercontent.com/kohyarp/DATA607_Project3/main/Data/NYT_Sienna%20Poll_table_2.csv')
+project_raw
+```
+```{r}
+colnames(project_raw)[1] = "Group"
+colnames(project_raw)[2] = "Group2"
+colnames(project_raw)[3] = "Unweighted_All_RVs"
+colnames(project_raw)[4] = "Weighted_All_RVs"
+colnames(project_raw)[5] = "Weighted_Likely_Electorate"
+colnames(project_raw)[6] = "Total"
+Total <- colnames(project_raw[3:length(project_raw)])
+glimpse(project_raw)
+```
+```{r}
+l_data <- project_raw %>% pivot_longer(cols=Total,names_to = "Comparison", values_to = "total_Comp")
+print(l_data)
+```
+```{r}
+project_raw %>%  filter(!row_number() %in% c(1, 2, 3))
+```
+```{r}
+library(ggplot2)
+ggplot(project_raw) +
+  geom_point(mapping = aes(x=Weighted_Likely_Electorate, y=Total))
+```
+
+
