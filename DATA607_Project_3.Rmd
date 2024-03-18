@@ -3,8 +3,8 @@ title: "DATA607 Project III - Teamwork"
 authors: "Koohyar P, Anthony C, Victor T, & James N"
 date: "`r Sys.Date()`"
 output:
-  pdf_document: default
   html_document: default
+  pdf_document: default
 editor_options:
   chunk_output_type: console
   markdown:
@@ -95,7 +95,7 @@ CSV format and are readily accessible by RStudio. However, since they
 originate from different sources, we must first tidy, clean, and
 organize them.
 
-```{r load_files, echo=FALSE}
+```{r load_files, echo=FALSE, message=FALSE}
 
 # GitHub raw URL
 GitHub_raw <- "https://raw.githubusercontent.com/kohyarp/DATA607_Project3/main/Data"
@@ -321,29 +321,14 @@ GitHub_load_all <- function(file_list) {
 
 GitHub_loaded_list <- GitHub_load_all(Github_file_list)
 
-temp_csv_file <- temp_files_contents [[1]][[1]]
+#temp_csv_file <- temp_files_contents [[1]][[1]]
 
 
 ```
 
-## Tidying and data cleanup (KP)
+Echo and Message are both `FALSE` to not show unneeded data. 
 
-All files are loaded into `GitHub_loaded_list` in those sections fo the
-code, we clean up the data and change them to long format to be bale to
-do further analyses on them. The first step is to go through the data
-stored in each dataframe and attempt to understand their structure.
 
-```{r tidying, echo=TRUE}
-
-# go though the list and extact each data.frame to a tibble or simialr thing for csv files 
-#csv file has a better an already devided into a dataframe, the issue with the data is that it is not long and sorrectly strcutured. 
-
-for (i in length(GitHub_loaded_list[["csv_data"]])){
-  
-  
-}
-
-```
 
 ### Data Import (AC)
 
@@ -361,7 +346,8 @@ for (i in seq_along(st_table)) {
   table_frames[[table_name]] <- table_data
 }
 # Sample Data Frame
-table_frames$Alabama
+print("An Exampel of Raw Data is shown for information")
+kable(table_frames$Alabama)
 
 ```
 
@@ -380,7 +366,10 @@ for (i in seq_along(table_frames)){
 # for (i in seq_along(table_frames)) {
 #  print(table_frames[[i]])
 #}
-table_frames[[1]]
+#table_frames[[1]]
+print("Data is cleaned by removing 99% reporting, just the forst 10 rows are shown")
+head(table_frames[[1]],10)
+
 ```
 
 ### Adding Columns for State and Party affiliation (AC)
@@ -392,7 +381,8 @@ add_columns <- function(df){
 }
 table_frames <- map(table_frames, add_columns)
 
-table_frames[[1]]
+
+#table_frames[[1]]
 ```
 
 ### Extracting of Data Frames from List for Super Tuesday States (AC)
@@ -419,7 +409,8 @@ utah <- table_frames[[15]]|> select(!X1&!X5) |> mutate(X6 = ifelse(is.na(X6), "u
 vermont <- table_frames[[16]]|> select(!X1&!X5) |> mutate(X6 = ifelse(is.na(X6), "vermont", X6)) |> mutate(X7 = ifelse(is.na(X7), "Democrat", X7))
 virginia <- table_frames[[17]]|> select(!X1&!X5) |> mutate(X6 = ifelse(is.na(X6), "virginia", X6)) |> mutate(X7 = ifelse(is.na(X7), "Democrat", X7))
 
-alabama
+kable(alabama)
+
 ```
 
 ### Substituting Republican in the rows (AC)
@@ -556,7 +547,9 @@ if (!is.na(soi)) {
   virginia <- virginia %>%
     mutate(X7 = ifelse(row_number() > soi, "Republican", X7))
 }
-alabama
+
+kable(alabama)
+
 ```
 
 ### Removing Candidate Rows (AC)
@@ -603,7 +596,8 @@ super_tuesday_combine <- bind_rows(alabama, arkansas, california, colorado, main
 
 # Remove the commas
 super_tuesday_combine$num_vote <- gsub(",", "", super_tuesday_combine$num_vote)
-super_tuesday_combine
+#super_tuesday_combine
+
 ```
 
 ### Total Votes Cast by Party Affiliation and State (AC)
@@ -628,7 +622,7 @@ state_data_2024b <- merge(state_data_2024a, state_rep_total_2024, by="state")
 
 state_final_2024 <- state_data_2024b |> select(!party.x&!party.y)
 
-state_final_2024
+kable(state_final_2024)
 ```
 
 ### Importing Next Dataset (AC)
@@ -692,29 +686,9 @@ vote_2022af <- vote_2022[vote_2022$state %in% super_states, ]
 
 combine_data_frame <- merge(state_final_2024, vote_2022af, by="state")
 
-combine_data_frame
+kable(combine_data_frame)
 
 ```
-
-## Separaret orphan code (AC)
-
-\*\*\* Split the state form numbers in first column state_split \<-
-strsplit(vote_2022$State, "\\[") vote_2022$State \<-
-sapply(state_split,"[", 1)
-
-\*\*\* Select the columns we want to work with vote_2022a \<-
-select(vote_2022, "State", "Total registrants", "Democratic Party",
-"Republican Party", "Independent", "Other parties")
-
-\*\*\* Rename the columns new_colnames \<- c("state", "total_voters",
-"democratic_voters", "republican_voters","independent_voters", "others")
-colnames(vote_2022a) \<- new_colnames
-
-\*\*\* Remove the commas columns_commas \<- c("total_voters",
-"democratic_voters", "republican_voters", "independent_voters",
-"others") vote_2022a[columns_commas] \<-
-lapply(vote_2022a[columns_commas], function(x) gsub(",", "", x))
-vote_2022a
 
 
 ### Merging both Data sets (JN)
@@ -724,7 +698,7 @@ vote_2022a
 merge_combine<- merge(super_tuesday_combine,combine_data_frame, by="state",all.x = TRUE) %>%
   arrange((state), percent_vote)
 
-merge_combine
+#merge_combine
 ```
 
 ### Analysis (JN)
