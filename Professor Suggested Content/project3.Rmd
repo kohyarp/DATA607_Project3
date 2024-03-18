@@ -1,0 +1,349 @@
+---
+title: "Project_3"
+author: "Anthony Conrardy"
+date: "2024-03-16"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(eval = TRUE, message = FALSE, warning = FALSE)
+library(rvest)
+library(stringr)
+library(tidyr)
+library(XML)
+library(dplyr)
+library(purrr)
+library(stringr)
+library(kableExtra)
+```
+
+### Data Import
+https://ballotpedia.org/Super_Tuesday_primaries,_2024
+
+```{r import}
+url <- "https://ballotpedia.org/Super_Tuesday_primaries,_2024"
+webpage <- read_html(url)
+st_table <- html_nodes(webpage, '.portal-section')
+table_names <- c("Alabama", "Alaska", "American Somoa", "Arkansas", "California", "Colorado", "Iowa", "Maine", "Massachusetts", "Minnesota", "North_Carolina", "Oklahoma", "Tennessee", "Texas", "Utah", "Vermont", "Virginia")
+table_frames <- list()
+for (i in seq_along(st_table)) {
+  table_data <- html_table(st_table[[i]])
+  table_name <- table_names[i]
+  table_frames[[table_name]] <- table_data
+}
+# Sample Data Frame
+table_frames$Alabama
+
+```
+
+### Remove Extraneous Rows
+
+```{r removing rows with 99% reporting or Source}
+for (i in seq_along(table_frames)){
+  # Filter the rows that contain the character string "% reporting"
+  table_frames[[i]] <- table_frames[[i]][!grepl("% reporting", table_frames[[i]]$X2), ]
+}
+# Loop through each data frame removing the row that contains "Source" in column X2
+for (i in seq_along(table_frames)){
+  # Filter the rows that contain the character string "Source"
+  table_frames[[i]] <- table_frames[[i]][!grepl("Source", table_frames[[i]]$X2), ]
+}
+# for (i in seq_along(table_frames)) {
+#  print(table_frames[[i]])
+#}
+table_frames[[1]]
+```
+
+### Adding Columns for State and Party affiliation
+
+```{r adding columns for state and party affilation, echo=FALSE}
+add_columns <- function(df){
+  df |> mutate(X6 = if_else(X2 == "Candidate", "state", NA),
+               X7 = if_else(X2 == "Candidate", "party", NA))
+}
+table_frames <- map(table_frames, add_columns)
+
+table_frames[[1]]
+```
+
+### Extracting of Data Frames from List for Super Tuesday States
+Selecting the proper columns, dropping the unnecessary ones.  This also places "Democrat into the Party Column for ALL candidates, which will fixed in a later section to include Republican in the correct candidate.  Pulls the individual state data frames out of the list to be worked on individually.
+
+```{r super tuesday states, echo=FALSE}
+alabama <- table_frames[[1]] |> select(!X1&!X5) |> mutate(X6 = ifelse(is.na(X6), "alabama", X6))|> mutate(X7 = ifelse(is.na(X7), "Democrat", X7))
+arkansas <- table_frames[[4]]|> select(!X1&!X5) |> mutate(X6 = ifelse(is.na(X6), "arkansas", X6)) |> mutate(X7 = ifelse(is.na(X7), "Democrat", X7))
+california <- table_frames[[5]]|> select(!X1&!X5) |> mutate(X6 = ifelse(is.na(X6), "california", X6)) |> mutate(X7 = ifelse(is.na(X7), "Democrat", X7))
+colorado <- table_frames[[6]]|> select(!X1&!X5) |> mutate(X6 = ifelse(is.na(X6), "colorado", X6)) |> mutate(X7 = ifelse(is.na(X7), "Democrat", X7))
+maine <- table_frames[[8]]|> select(!X1&!X5) |> mutate(X6 = ifelse(is.na(X6), "maine", X6)) |> mutate(X7 = ifelse(is.na(X7), "Democrat", X7))
+massachusets <- table_frames[[9]]|> select(!X1&!X5) |> mutate(X6 = ifelse(is.na(X6), "massachusets", X6)) |> mutate(X7 = ifelse(is.na(X7), "Democrat", X7))
+minnesota <- table_frames[[10]]|> select(!X1&!X5) |> mutate(X6 = ifelse(is.na(X6), "minnesota", X6)) |> mutate(X7 = ifelse(is.na(X7), "Democrat", X7))
+north_carolina <- table_frames[[11]]|> select(!X1&!X5) |> mutate(X6 = ifelse(is.na(X6), "north_carolina", X6)) |> mutate(X7 = ifelse(is.na(X7), "Democrat", X7))
+oklahoma <- table_frames[[12]]|> select(!X1&!X5) |> mutate(X6 = ifelse(is.na(X6), "oklahoma", X6)) |> mutate(X7 = ifelse(is.na(X7), "Democrat", X7))
+tennessee <- table_frames[[13]]|> select(!X1&!X5) |> mutate(X6 = ifelse(is.na(X6), "tennnessee", X6)) |> mutate(X7 = ifelse(is.na(X7), "Democrat", X7))
+texas<- table_frames[[14]]|> select(!X1&!X5) |> mutate(X6 = ifelse(is.na(X6), "texas", X6)) |> mutate(X7 = ifelse(is.na(X7), "Democrat", X7))
+utah <- table_frames[[15]]|> select(!X1&!X5) |> mutate(X6 = ifelse(is.na(X6), "utah", X6)) |> mutate(X7 = ifelse(is.na(X7), "Democrat", X7))
+vermont <- table_frames[[16]]|> select(!X1&!X5) |> mutate(X6 = ifelse(is.na(X6), "vermont", X6)) |> mutate(X7 = ifelse(is.na(X7), "Democrat", X7))
+virginia <- table_frames[[17]]|> select(!X1&!X5) |> mutate(X6 = ifelse(is.na(X6), "virginia", X6)) |> mutate(X7 = ifelse(is.na(X7), "Democrat", X7))
+
+alabama
+```
+
+### Substituting Republican in the rows
+This uses a filter that identifies the second occurrence in the column X2 that separates republican candidates from the democratic candidates, and then replaces "Democrat" with "Republican".  This is done for each individual data frame for the Super Tuesday states. 
+```{r repubilcan candidates, echo=FALSE}
+# Find the index of the second occurrence of "Candidate" in column X2
+soi <- alabama$X2 %>%
+  grep("Candidate", ., fixed = TRUE) %>%
+  .[2]
+# Replace values in column X7 after the second occurrence of "Candidate"
+if (!is.na(soi)) {
+  alabama <- alabama %>%
+    mutate(X7 = ifelse(row_number() > soi, "Republican", X7))
+}
+# Find the index of the second occurrence of "Candidate" in column X2
+soi <- arkansas$X2 %>%
+  grep("Candidate", ., fixed = TRUE) %>%
+  .[2]
+# Replace values in column X7 after the second occurrence of "Candidate"
+if (!is.na(soi)) {
+  arkansas <- arkansas %>%
+    mutate(X7 = ifelse(row_number() > soi, "Republican", X7))
+}
+# Find the index of the second occurrence of "Candidate" in column X2
+soi <- california$X2 %>%
+  grep("Candidate", ., fixed = TRUE) %>%
+  .[2]
+# Replace values in column X7 after the second occurrence of "Candidate"
+if (!is.na(soi)) {
+  california <- california %>%
+    mutate(X7 = ifelse(row_number() > soi, "Republican", X7))
+}
+# Find the index of the second occurrence of "Candidate" in column X2
+soi <- colorado$X2 %>%
+  grep("Candidate", ., fixed = TRUE) %>%
+  .[2]
+# Replace values in column X7 after the second occurrence of "Candidate"
+if (!is.na(soi)) {
+  colorado <- colorado %>%
+    mutate(X7 = ifelse(row_number() > soi, "Republican", X7))
+}
+# Find the index of the second occurrence of "Candidate" in column X2
+soi <- maine$X2 %>%
+  grep("Candidate", ., fixed = TRUE) %>%
+  .[2]
+# Replace values in column X7 after the second occurrence of "Candidate"
+if (!is.na(soi)) {
+  maine <- maine %>%
+    mutate(X7 = ifelse(row_number() > soi, "Republican", X7))
+}
+# Find the index of the second occurrence of "Candidate" in column X2
+soi <- massachusets$X2 %>%
+  grep("Candidate", ., fixed = TRUE) %>%
+  .[2]
+# Replace values in column X7 after the second occurrence of "Candidate"
+if (!is.na(soi)) {
+  massachusets <- massachusets %>%
+    mutate(X7 = ifelse(row_number() > soi, "Republican", X7))
+}
+# Find the index of the second occurrence of "Candidate" in column X2
+soi <- minnesota$X2 %>%
+  grep("Candidate", ., fixed = TRUE) %>%
+  .[2]
+# Replace values in column X7 after the second occurrence of "Candidate"
+if (!is.na(soi)) {
+  minnesota <- minnesota %>%
+    mutate(X7 = ifelse(row_number() > soi, "Republican", X7))
+}
+# Find the index of the second occurrence of "Candidate" in column X2
+soi <- north_carolina$X2 %>%
+  grep("Candidate", ., fixed = TRUE) %>%
+  .[2]
+# Replace values in column X7 after the second occurrence of "Candidate"
+if (!is.na(soi)) {
+  north_carolina <- north_carolina %>%
+    mutate(X7 = ifelse(row_number() > soi, "Republican", X7))
+}
+# Find the index of the second occurrence of "Candidate" in column X2
+soi <- oklahoma$X2 %>%
+  grep("Candidate", ., fixed = TRUE) %>%
+  .[2]
+# Replace values in column X7 after the second occurrence of "Candidate"
+if (!is.na(soi)) {
+  oklahoma <- oklahoma %>%
+    mutate(X7 = ifelse(row_number() > soi, "Republican", X7))
+}
+# Find the index of the second occurrence of "Candidate" in column X2
+soi <- tennessee$X2 %>%
+  grep("Candidate", ., fixed = TRUE) %>%
+  .[2]
+# Replace values in column X7 after the second occurrence of "Candidate"
+if (!is.na(soi)) {
+  tennessee <- tennessee %>%
+    mutate(X7 = ifelse(row_number() > soi, "Republican", X7))
+}
+# Find the index of the second occurrence of "Candidate" in column X2
+soi <- texas$X2 %>%
+  grep("Candidate", ., fixed = TRUE) %>%
+  .[2]
+# Replace values in column X7 after the second occurrence of "Candidate"
+if (!is.na(soi)) {
+  texas <- texas %>%
+    mutate(X7 = ifelse(row_number() > soi, "Republican", X7))
+}
+# Find the index of the second occurrence of "Candidate" in column X2
+soi <- utah$X2 %>%
+  grep("Candidate", ., fixed = TRUE) %>%
+  .[2]
+# Replace values in column X7 after the second occurrence of "Candidate"
+if (!is.na(soi)) {
+  utah <- utah %>%
+    mutate(X7 = ifelse(row_number() > soi, "Republican", X7))
+}
+# Find the index of the second occurrence of "Candidate" in column X2
+soi <- vermont$X2 %>%
+  grep("Candidate", ., fixed = TRUE) %>%
+  .[2]
+# Replace values in column X7 after the second occurrence of "Candidate"
+if (!is.na(soi)) {
+  vermont <- vermont %>%
+    mutate(X7 = ifelse(row_number() > soi, "Republican", X7))
+}
+# Find the index of the second occurrence of "Candidate" in column X2
+soi <- virginia$X2 %>%
+  grep("Candidate", ., fixed = TRUE) %>%
+  .[2]
+# Replace values in column X7 after the second occurrence of "Candidate"
+if (!is.na(soi)) {
+  virginia <- virginia %>%
+    mutate(X7 = ifelse(row_number() > soi, "Republican", X7))
+}
+alabama
+```
+
+
+### Removing Candidate Rows
+In this section, we remove the "candidate" row from each of the data frames and rename the column variable names from X to what they actually represent.  We also address the accidental import of California candidates not running for the national office of president because they were placed in the same table on the website.  Those candidates had their party affiliation and percent_vote values changes to NA.
+```{r removing candidate rows by filter, echo=FALSE, warning=FALSE}
+alabama <- alabama |> filter(!X2=="Candidate") |> rename(candidate=X2, percent_vote=X3, num_vote=X4, state=X6, party=X7)
+arkansas <-  arkansas |> filter(!X2=="Candidate") |> rename(candidate=X2, percent_vote=X3, num_vote=X4, state=X6, party=X7)
+california <-  california |> filter(!X2=="Candidate") |> rename(candidate=X2, percent_vote=X3, num_vote=X4, state=X6, party=X7)
+# California Cleanup. Five candidates brought over that were not running for president.
+california[18:23, "party"] <- "NA"
+california[18:23, "percent_vote"] <- "NA"
+colorado <-  colorado |> filter(!X2=="Candidate") |> rename(candidate=X2, percent_vote=X3, num_vote=X4, state=X6, party=X7)
+maine <-  maine |> filter(!X2=="Candidate") |> rename(candidate=X2, percent_vote=X3, num_vote=X4, state=X6, party=X7)
+massachusets <-  massachusets |> filter(!X2=="Candidate") |> rename(candidate=X2, percent_vote=X3, num_vote=X4, state=X6, party=X7)
+minnesota <-  minnesota |> filter(!X2=="Candidate") |> rename(candidate=X2, percent_vote=X3, num_vote=X4, state=X6, party=X7)
+north_carolina <-  north_carolina |> filter(!X2=="Candidate") |> rename(candidate=X2, percent_vote=X3, num_vote=X4, state=X6, party=X7)
+oklahoma <-  oklahoma |> filter(!X2=="Candidate") |> rename(candidate=X2, percent_vote=X3, num_vote=X4, state=X6, party=X7)
+tennessee <- tennessee |> filter(!X2=="Candidate") |> rename(candidate=X2, percent_vote=X3, num_vote=X4, state=X6, party=X7)
+texas <-  texas |> filter(!X2=="Candidate") |> rename(candidate=X2, percent_vote=X3, num_vote=X4, state=X6, party=X7)
+utah <-  utah|> filter(!X2=="Candidate") |> rename(candidate=X2, percent_vote=X3, num_vote=X4, state=X6, party=X7)
+vermont <-  vermont |> filter(!X2=="Candidate") |> rename(candidate=X2, percent_vote=X3, num_vote=X4, state=X6, party=X7)
+virginia <- virginia |> filter(!X2=="Candidate") |> rename(candidate=X2, percent_vote=X3, num_vote=X4, state=X6, party=X7)
+california |> kbl() |> kable_classic_2(full_width=F, font_size=12)
+
+```
+
+### Combining the Entire Data Frame
+In this section we combine all the Super Tuesday state data frames into one tidy data frame containing five (5) variables and 205 rows.  Once in, we will remove all the commas in the vote counts so we can use the data as numeric.
+```{r Combine}
+# The Combine
+super_tuesday_combine <- bind_rows(alabama, arkansas, california, colorado, maine, massachusets, minnesota, north_carolina, oklahoma, tennessee, texas, utah, vermont, virginia)
+
+# Remove the commas
+super_tuesday_combine$num_vote <- gsub(",", "", super_tuesday_combine$num_vote)
+super_tuesday_combine
+```
+### Total Votes Cast by Party Affiliation and State
+
+In this section we are going to identify the total number of votes cast by state, and then grouped by party affiliation.
+
+```{r state and party votes, echo=FALSE}
+# Treat the num_vote column as numeric
+super_tuesday_combine$num_vote <- as.numeric(super_tuesday_combine$num_vote)
+
+
+#Group by state total votes
+state_total_2024 <- super_tuesday_combine |> group_by(state) |> summarise(state_total=sum(num_vote))
+
+state_dem_total_2024 <- super_tuesday_combine |> group_by(state,party) |> filter(party=="Democrat") |>  summarise(state_party_total_d=sum(num_vote), .groups = "keep")
+
+state_rep_total_2024 <- super_tuesday_combine |> group_by(state, party) |> filter(party=="Republican") |>  summarise(state_party_total_r=sum(num_vote), .groups = "keep")
+
+state_data_2024a <- merge(state_total_2024, state_dem_total_2024, by="state")
+state_data_2024b <- merge(state_data_2024a, state_rep_total_2024, by="state")
+
+state_final_2024 <- state_data_2024b |> select(!party.x&!party.y)
+
+state_final_2024
+```
+
+### Importing Next Dataset
+In this section we are now going to import the state level data on regsitered voters and party affiliations.  This comes from the websitehttps://worldpopulationreview.com/state-rankings/registered-voters-by-state.  These figures are from October 2022, but should be accurate enough for our purposes of comparison with the voting electorate on Super Tuesday 2024.  This import was much simpler due to the table structured format of the website, so the transformation and clean up are going to be much simpler.  The initial import required us to move the first row to column names and then remove the fist row as an observation.
+
+```{r partisan affilation, echo=FALSE}
+url <- "https://worldpopulationreview.com/state-rankings/registered-voters-by-state"
+webpage <- read_html(url)
+vote <- webpage |> html_table(header = NA, fill = TRUE)
+vote_2022 <- html_table(webpage, header = TRUE)[[2]]
+#colnames(vote_2022) <- vote_2022[1,]
+#vote_2022 <- vote_2022[-1,]
+#vote_2022
+```
+
+### Tidying and Transforming
+In this section we are going to clean up the data frame a bit.  We need to remove the commas and % in the values so we can do calculations later.  We need to adjust the column names to be more workable, and we will need to mutate the population numbers to be comparable with the values in the other data frame (these are in thousands).   
+```{r tidy and transform, echo=FALSE}
+# Column names
+new_colnames <- c("state", "reg_voter_num", "perc_vote_pop")
+colnames(vote_2022) <- new_colnames
+
+# Remove the commas and convert to numeric
+vote_2022$reg_voter_num <- gsub(",", "", vote_2022$reg_voter_num)
+vote_2022$reg_voter_num <- as.numeric(vote_2022$reg_voter_num)
+
+# Convert units from per 1000
+vote_2022 <- vote_2022 |> mutate(reg_voter_num=reg_voter_num*1000)
+
+# Remove % sign
+vote_2022$perc_vote_pop <- gsub("%", "", vote_2022$perc_vote_pop)
+
+# Convert percent
+vote_2022 <- vote_2022 |> mutate(perc_vote_pop = as.numeric(perc_vote_pop)/100)
+
+# Convert state to lower case
+vote_2022$state <- tolower(vote_2022$state)
+
+```
+
+### Filtering the State Level Data to Only Super Tuesday States
+
+```{r filter state partisan voter date}
+super_states <- state_final_2024$state
+vote_2022af <- vote_2022[vote_2022$state %in% super_states, ]
+
+combine_data_frame <- merge(state_final_2024, vote_2022af, by="state")
+
+combine_data_frame
+
+```
+
+
+*** Split the state form numbers in first column
+state_split <- strsplit(vote_2022$State, "\\[")
+vote_2022$State <- sapply(state_split,"[", 1)
+
+*** Select the columns we want to work with
+vote_2022a <- select(vote_2022, "State", "Total registrants", "Democratic Party", "Republican Party", "Independent", "Other parties")
+
+*** Rename the columns
+new_colnames <- c("state", "total_voters", "democratic_voters", "republican_voters","independent_voters", "others")
+colnames(vote_2022a) <- new_colnames
+
+*** Remove the commas
+columns_commas <- c("total_voters", "democratic_voters", "republican_voters", "independent_voters", "others")
+vote_2022a[columns_commas] <- lapply(vote_2022a[columns_commas], function(x) gsub(",", "", x))
+vote_2022a
