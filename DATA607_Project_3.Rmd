@@ -53,7 +53,7 @@ are installed before running the following blocks of codes.
 
 ```{r Code_initialization, echo=FALSE, message=FALSE}
 
-required_packages <- c("RSQLite","devtools","tidyverse","DBI","dplyr","odbc","openintro","ggplot2","psych","reshape2","knitr","markdown","shiny","R.rsp","fivethirtyeight","RCurl", "stringr","readr","glue","data.table", "hflights", "jsonlite", "rjson", "XML", "xml2", "rvest", "readxl", "openxlsx", "httr") # Specify packages
+required_packages <- c("RSQLite","devtools","tidyverse","DBI","dplyr","odbc","openintro","ggplot2","psych","reshape2","knitr","markdown","shiny","R.rsp","fivethirtyeight","RCurl", "stringr","readr","glue","data.table", "hflights", "jsonlite", "rjson", "XML", "xml2", "rvest", "readxl", "openxlsx", "httr", "purrr","kableExtra","reactable") # Specify packages
 
 not_installed <- required_packages[!(required_packages %in% installed.packages()[ , "Package"])]# Extract not installed packages
 if(length(not_installed)==0){
@@ -72,6 +72,12 @@ library(knitr)
 library(openxlsx)
 library(httr)
 library(jsonlite)
+library(stringr)
+library(tidyr)
+library(XML)
+library(purrr)
+library(kableExtra)
+library(reactable)
 
 #surpass the error message for dplyr to not show the masking
 suppressPackageStartupMessages(library(dplyr))
@@ -709,3 +715,101 @@ colnames(vote_2022a) \<- new_colnames
 "others") vote_2022a[columns_commas] \<-
 lapply(vote_2022a[columns_commas], function(x) gsub(",", "", x))
 vote_2022a
+
+
+### Merging both Data sets (JN)
+
+```{r}
+## Merging Super_tuesday_combine with combine_data_frame
+merge_combine<- merge(super_tuesday_combine,combine_data_frame, by="state",all.x = TRUE) %>%
+  arrange((state), percent_vote)
+
+merge_combine
+```
+
+### Analysis (JN)
+
+## Calculate Average (NJ)
+
+To better visualize the data I will provide a table that display state
+by their Average Total
+
+```{r}
+merge_combine_1 <- mutate(merge_combine, "Average_total"= rowMeans( select(merge_combine,"num_vote", "state_party_total_r", "state_party_total_r", "reg_voter_num") ) )
+
+reactable(select(merge_combine_1, "state", "Average_total"))
+```
+
+### Filter Votes by Party (NJ)
+
+This filter data party which are Democrat and Republican. W
+
+```{r}
+# Members filter 
+Party_D <- merge_combine_1 %>% filter( party == "Democrat", na.omit(TRUE))
+Party_R <- merge_combine_1 %>% filter(party == "Republican", na.omit(TRUE))
+
+```
+
+## Democratic vs Republican vote by state (NJ)
+
+There are two plot below, one show Republican votes by State and the
+other show Democratic votes by state.
+
+```{r}
+## Democratic by state
+D_plot <- ggplot(merge_combine_1, aes(y=merge_combine_1$state, fill = state)) + geom_bar(binwidth = 300) +
+  ggtitle("Democratic Vote By State") +
+  theme(plot.title = element_text(hjust=0.5)) +
+  ylab("State Vote") +
+  xlab("Democratic Party")
+
+D_plot
+
+## Republican by state
+R_plot <- ggplot(merge_combine_1, aes(y=merge_combine_1$state, fill = state)) + geom_bar(binwidth = 300) +
+  ggtitle("Republican Vote By State") +
+  theme(plot.title = element_text(hjust=0.5)) +
+  ylab("State Vote") +
+  xlab("Republican Party")
+
+R_plot
+```
+
+### Party Percentage by state (NJ)
+
+The plot below show the party percentage by state. We can see that the
+Republican party have the highest percent by state compare to the
+Democratic party.
+
+```{r}
+myplot <- ggplot(merge_combine_1, aes(merge_combine_1$party, group = state)) +
+          geom_text(aes( label = scales::percent(..prop..),
+                   y= ..prop.. ), stat= "count", vjust = -.5) +
+geom_bar(aes(y = ..prop.., fill = `state`, stat="count")) + 
+          scale_y_continuous(labels=scales::percent) +
+          ggtitle("Party Percentage by State") +
+         theme(plot.title = element_text(hjust=0.5)) +
+          ylab("Percentage of Voters by State") +
+          xlab("Party")
+  
+myplot
+```
+
+### Number of vote (JN)
+
+```{r,warning=FALSE,echo=FALSE}
+ggplot(merge_combine_1, aes(x =`num_vote`, y= `state`, fill = party)) + geom_boxplot()
+```
+
+## Average Ttoal by Party (JN)
+
+```{r,warning=FALSE,echo=FALSE}
+ggplot(merge_combine_1, aes(x =`Average_total`, fill = party)) + geom_histogram() +
+  ggtitle("Average voter by Party") +
+  theme(plot.title = element_text(hjust=0.5)) +
+  ylab("count") +
+  xlab("Average Total")
+```
+
+### Conclusion (JN)
