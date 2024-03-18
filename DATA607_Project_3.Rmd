@@ -30,7 +30,7 @@ College, CBS News, and many others. Some sources are free, while others
 incur a fee. It should be noted that the polls tend to discriminate
 between “Registered Voters” (RV) and “Likely Voters” (LV), and the
 common belief is the LV are better more indicative of election results.
-However, a Berkley Haas Study in 2020 reported that while the polls
+However, a Berkeley Haas Study in 2020 reported that while the polls
 reached a 95% confidence level for statistical reporting, the actual
 election results only matched with the polls 60% of the time.
 
@@ -118,7 +118,7 @@ Read_csv <- read.csv(CSV_path,check.names = TRUE,
 
 repository_url <- "https://api.github.com/repos/kohyarp/DATA607_Project3/contents/Data"
 
-#Load all the relavant tile type from GitHub_raw
+#Load all the relevant tile type from GitHub_raw
 
 GitHub_file_type <-  c("csv", "CSV", "txt", "TXT")  #Different types of file's extension to be loaded 
 
@@ -151,7 +151,7 @@ GitHub_Get_file <- function(repository_url = "https://api.github.com/repos/kohya
   # Initialize list to store files by type
   files_by_type <- list()
   
-  #GitHub API has error loading file from API but laod it correctly from Raw and following code is to help it, and I replaced it with raw to work. 
+  #GitHub API has error loading file from API but load it correctly from Raw and following code is to help it, and I replaced it with raw to work. 
   repository_url_raw <-  gsub("^https://api\\.github\\.com/repos", 
                           "https://raw.githubusercontent.com", repository_url)
    repository_url_raw <-  gsub("contents", "main", repository_url_raw)
@@ -181,7 +181,7 @@ GitHub_Get_file <- function(repository_url = "https://api.github.com/repos/kohya
 Github_file_list <- GitHub_Get_file (repository_url = repository_url , GitHub_file_type = GitHub_file_type)
 
 
-#defien a funtion that get a list of csv fiels and laod them all from GitHub public library 
+#define a function that get a list of csv fields and load them all from GitHub public library 
 GitHub_CSV_load <- function(repository_url = "https://api.github.com/repos/kohyarp/DATA607_Project3/contents/Data") {
   # GitHub repository URL
   
@@ -346,7 +346,7 @@ for (i in seq_along(st_table)) {
   table_frames[[table_name]] <- table_data
 }
 # Sample Data Frame
-print("An Exampel of Raw Data is shown for information")
+print("An Example of Raw Data is shown for information")
 kable(table_frames$Alabama)
 
 ```
@@ -367,7 +367,7 @@ for (i in seq_along(table_frames)){
 #  print(table_frames[[i]])
 #}
 #table_frames[[1]]
-print("Data is cleaned by removing 99% reporting, just the forst 10 rows are shown")
+print("Data is cleaned by removing 99% reporting, just the f1rst 10 rows are shown")
 head(table_frames[[1]],10)
 
 ```
@@ -628,8 +628,8 @@ kable(state_final_2024)
 ### Importing Next Dataset (AC)
 
 In this section we are now going to import the state level data on
-regsitered voters and party affiliations. This comes from the
-websitehttps://worldpopulationreview.com/state-rankings/registered-voters-by-state.
+registered voters and party affiliations. This comes from the
+website https://worldpopulationreview.com/state-rankings/registered-voters-by-state.
 These figures are from October 2022, but should be accurate enough for
 our purposes of comparison with the voting electorate on Super Tuesday
 2024. This import was much simpler due to the table structured format of
@@ -750,7 +750,7 @@ R_plot <- ggplot(merge_combine_1, aes(y=merge_combine_1$state, fill = state)) + 
 R_plot
 ```
 
-### Party Percentage by state (NJ)
+### Party Percentage by State (NJ)
 
 The plot below show the party percentage by state. We can see that the
 Republican party have the highest percent by state compare to the
@@ -770,13 +770,13 @@ geom_bar(aes(y = ..prop.., fill = `state`, stat="count")) +
 myplot
 ```
 
-### Number of vote (JN)
+### Number of Vote (JN)
 
 ```{r,warning=FALSE,echo=FALSE}
 ggplot(merge_combine_1, aes(x =`num_vote`, y= `state`, fill = party)) + geom_boxplot()
 ```
 
-## Average Ttoal by Party (JN)
+## Average Total by Party (JN)
 
 ```{r,warning=FALSE,echo=FALSE}
 ggplot(merge_combine_1, aes(x =`Average_total`, fill = party)) + geom_histogram() +

@@ -1,0 +1,39 @@
+Header,Group,Unweighted All R.V.s,Weighted All R.V.s,Weighted Likely Electorate,N
+Gender,Men,0.5,0.49,0.48,492
+Gender,Women,49,50,51,478
+Age,18 to 29,16,16,13,159
+Age,30 to 44,26,23,21,251
+Age,45 to 64,33,32,34,328
+Age,65 and older,19,24,26,189
+Education,High school,17,31,29,168
+Education,Some college,36,30,30,355
+Education,College,24,23,25,237
+Education,Post-graduate,22,15,16,214
+Home Ownership (L2 Model),Likely renter,26,27,23,254
+Home Ownership (L2 Model),Likely homeowner,43,45,51,418
+Home Ownership (L2 Model),Unknown,31,28,26,308
+Marital Status (L2 Model),Married,33,33,39,327
+Marital Status (L2 Model),Nontraditional,9,8,9,93
+Marital Status (L2 Model),Unknown,57,58,52,560
+Party (Self-Reported),Democrat,29,28,29,281
+Party (Self-Reported),Republican,28,30,32,278
+Party (Self-Reported),Independent,32,32,31,312
+Party (Based on L2 Data),Democrat,34,34,36,335
+Party (Based on L2 Data),Republican,29,29,33,282
+Party (Based on L2 Data),Other,37,37,31,363
+Race (L2 Model),White,63,63,66,619
+Race (L2 Model),Hispanic,13,12,11,128
+Race (L2 Model),Black,11,10,8,108
+Race (L2 Model),Asian,3,3,3,26
+Race (L2 Model),Other,3,3,3,26
+Race (L2 Model),White,63,63,66,619
+Race (L2 Model),Nonwhite,29,29,26,288
+National Region,Midwest,22,22,22,212
+National Region,Northeast,22,20,20,218
+National Region,South,35,35,35,344
+National Region,West,21,23,23,206
+Turnout History (Based on L2 Data),Voted in last midterm and in a primary,40,41,50,390
+Turnout History (Based on L2 Data),Voted in last two midterms,22,23,26,220
+Turnout History (Based on L2 Data),"Voted in last general, no midterm",13,13,12,128
+Turnout History (Based on L2 Data),Did not vote in last general or midterm,15,14,6,150
+Turnout History (Based on L2 Data),New registrant,9,8,6,92
