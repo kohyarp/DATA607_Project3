@@ -376,14 +376,16 @@ This filter data party which are Democrat and Republican. W
 # Members filter 
 Party_D <- merge_combine_1 %>% filter( party == "Democrat", na.omit(TRUE))
 Party_R <- merge_combine_1 %>% filter(party == "Republican", na.omit(TRUE))
+
 ```
 
-## Democratic vs Republoican vote by state
+## Democratic vs Republican vote by state
 There are two plot below, one show Republican votes by State and the other show Democratic votes by state.
 ```{r}
 ## Democratic by state
 D_plot <- ggplot(merge_combine_1, aes(y=merge_combine_1$state, fill = state)) + geom_bar(binwidth = 300) +
   ggtitle("Democratic Vote By State") +
+  theme(plot.title = element_text(hjust=0.5)) +
   ylab("State Vote") +
   xlab("Democratic Party")
 
@@ -392,26 +394,43 @@ D_plot
 ## Republican by state
 R_plot <- ggplot(merge_combine_1, aes(y=merge_combine_1$state, fill = state)) + geom_bar(binwidth = 300) +
   ggtitle("Republican Vote By State") +
+  theme(plot.title = element_text(hjust=0.5)) +
   ylab("State Vote") +
   xlab("Republican Party")
 
 R_plot
 ```
 
+### Party Percentage by state
+
+The plot below show the party percentage by state. We can see that the Republican party have the highest percent by state compare to the Democratic party.
 ```{r}
 myplot <- ggplot(merge_combine_1, aes(merge_combine_1$party, group = state)) +
           geom_text(aes( label = scales::percent(..prop..),
                    y= ..prop.. ), stat= "count", vjust = -.5) +
-geom_bar(aes(y = ..prop.., fill = merge_combine_1$state, stat="count")) + 
+geom_bar(aes(y = ..prop.., fill = `state`, stat="count")) + 
           scale_y_continuous(labels=scales::percent) +
+          ggtitle("Party Percentage by State") +
+         theme(plot.title = element_text(hjust=0.5)) +
           ylab("Percentage of Voters by State") +
           xlab("Party")
   
 myplot
 ```
 
+### Number of vote 
 ```{r,warning=FALSE,echo=FALSE}
 ggplot(merge_combine_1, aes(x =`num_vote`, y= `state`, fill = party)) + geom_boxplot()
+```
+
+## Average Ttoal by Party
+
+```{r,warning=FALSE,echo=FALSE}
+ggplot(merge_combine_1, aes(x =`Average_total`, fill = party)) + geom_histogram() +
+  ggtitle("Average voter by Party") +
+  theme(plot.title = element_text(hjust=0.5)) +
+  ylab("count") +
+  xlab("Average Total")
 ```
 
 ### Conclusion
