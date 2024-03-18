@@ -5,6 +5,9 @@ date: "2024-03-16"
 output:
   html_document: default
   pdf_document: default
+editor_options: 
+  markdown: 
+    wrap: 72
 ---
 
 ```{r setup, include=FALSE}
@@ -22,7 +25,8 @@ library(tidyverse)
 ```
 
 ### Data Import
-https://ballotpedia.org/Super_Tuesday_primaries,_2024
+
+<https://ballotpedia.org/Super_Tuesday_primaries,_2024>
 
 ```{r import}
 url <- "https://ballotpedia.org/Super_Tuesday_primaries,_2024"
@@ -71,7 +75,12 @@ table_frames[[1]]
 ```
 
 ### Extracting of Data Frames from List for Super Tuesday States
-Selecting the proper columns, dropping the unnecessary ones.  This also places "Democrat into the Party Column for ALL candidates, which will fixed in a later section to include Republican in the correct candidate.  Pulls the individual state data frames out of the list to be worked on individually.
+
+Selecting the proper columns, dropping the unnecessary ones. This also
+places "Democrat into the Party Column for ALL candidates, which will
+fixed in a later section to include Republican in the correct candidate.
+Pulls the individual state data frames out of the list to be worked on
+individually.
 
 ```{r super tuesday states, echo=FALSE}
 alabama <- table_frames[[1]] |> select(!X1&!X5) |> mutate(X6 = ifelse(is.na(X6), "alabama", X6))|> mutate(X7 = ifelse(is.na(X7), "Democrat", X7))
@@ -93,7 +102,12 @@ alabama
 ```
 
 ### Substituting Republican in the rows
-This uses a filter that identifies the second occurrence in the column X2 that separates republican candidates from the democratic candidates, and then replaces "Democrat" with "Republican".  This is done for each individual data frame for the Super Tuesday states. 
+
+This uses a filter that identifies the second occurrence in the column
+X2 that separates republican candidates from the democratic candidates,
+and then replaces "Democrat" with "Republican". This is done for each
+individual data frame for the Super Tuesday states.
+
 ```{r repubilcan candidates, echo=FALSE}
 # Find the index of the second occurrence of "Candidate" in column X2
 soi <- alabama$X2 %>%
@@ -225,7 +239,14 @@ alabama
 ```
 
 ### Removing Candidate Rows
-In this section, we remove the "candidate" row from each of the data frames and rename the column variable names from X to what they actually represent.  We also address the accidental import of California candidates not running for the national office of president because they were placed in the same table on the website.  Those candidates had their party affiliation and percent_vote values changes to NA.
+
+In this section, we remove the "candidate" row from each of the data
+frames and rename the column variable names from X to what they actually
+represent. We also address the accidental import of California
+candidates not running for the national office of president because they
+were placed in the same table on the website. Those candidates had their
+party affiliation and percent_vote values changes to NA.
+
 ```{r removing candidate rows by filter, echo=FALSE, warning=FALSE}
 alabama <- alabama |> filter(!X2=="Candidate") |> rename(candidate=X2, percent_vote=X3, num_vote=X4, state=X6, party=X7)
 arkansas <-  arkansas |> filter(!X2=="Candidate") |> rename(candidate=X2, percent_vote=X3, num_vote=X4, state=X6, party=X7)
@@ -249,7 +270,12 @@ california |> kbl() |> kable_classic_2(full_width=F, font_size=12)
 ```
 
 ### Combining the Entire Data Frame
-In this section we combine all the Super Tuesday state data frames into one tidy data frame containing five (5) variables and 205 rows.  Once in, we will remove all the commas in the vote counts so we can use the data as numeric.
+
+In this section we combine all the Super Tuesday state data frames into
+one tidy data frame containing five (5) variables and 205 rows. Once in,
+we will remove all the commas in the vote counts so we can use the data
+as numeric.
+
 ```{r Combine}
 # The Combine
 super_tuesday_combine <- bind_rows(alabama, arkansas, california, colorado, maine, massachusets, minnesota, north_carolina, oklahoma, tennessee, texas, utah, vermont, virginia)
@@ -258,9 +284,11 @@ super_tuesday_combine <- bind_rows(alabama, arkansas, california, colorado, main
 super_tuesday_combine$num_vote <- gsub(",", "", super_tuesday_combine$num_vote)
 super_tuesday_combine
 ```
+
 ### Total Votes Cast by Party Affiliation and State
 
-In this section we are going to identify the total number of votes cast by state, and then grouped by party affiliation.
+In this section we are going to identify the total number of votes cast
+by state, and then grouped by party affiliation.
 
 ```{r state and party votes, echo=FALSE}
 # Treat the num_vote column as numeric
@@ -283,7 +311,16 @@ state_final_2024
 ```
 
 ### Importing Next Dataset
-In this section we are now going to import the state level data on regsitered voters and party affiliations.  This comes from the websitehttps://worldpopulationreview.com/state-rankings/registered-voters-by-state.  These figures are from October 2022, but should be accurate enough for our purposes of comparison with the voting electorate on Super Tuesday 2024.  This import was much simpler due to the table structured format of the website, so the transformation and clean up are going to be much simpler.  The initial import required us to move the first row to column names and then remove the fist row as an observation.
+
+In this section we are now going to import the state level data on
+regsitered voters and party affiliations. This comes from the
+websitehttps://worldpopulationreview.com/state-rankings/registered-voters-by-state.
+These figures are from October 2022, but should be accurate enough for
+our purposes of comparison with the voting electorate on Super Tuesday
+2024. This import was much simpler due to the table structured format of
+the website, so the transformation and clean up are going to be much
+simpler. The initial import required us to move the first row to column
+names and then remove the fist row as an observation.
 
 ```{r partisan affilation, echo=FALSE}
 url <- "https://worldpopulationreview.com/state-rankings/registered-voters-by-state"
@@ -296,7 +333,13 @@ vote_2022 <- html_table(webpage, header = TRUE)[[2]]
 ```
 
 ### Tidying and Transforming
-In this section we are going to clean up the data frame a bit.  We need to remove the commas and % in the values so we can do calculations later.  We need to adjust the column names to be more workable, and we will need to mutate the population numbers to be comparable with the values in the other data frame (these are in thousands).   
+
+In this section we are going to clean up the data frame a bit. We need
+to remove the commas and % in the values so we can do calculations
+later. We need to adjust the column names to be more workable, and we
+will need to mutate the population numbers to be comparable with the
+values in the other data frame (these are in thousands).
+
 ```{r tidy and transform, echo=FALSE}
 # Column names
 new_colnames <- c("state", "reg_voter_num", "perc_vote_pop")
@@ -332,21 +375,22 @@ combine_data_frame
 
 ```
 
+\*\*\* Split the state form numbers in first column state_split \<-
+strsplit(vote_2022$State, "\\[") vote_2022$State \<-
+sapply(state_split,"[", 1)
 
-*** Split the state form numbers in first column
-state_split <- strsplit(vote_2022$State, "\\[")
-vote_2022$State <- sapply(state_split,"[", 1)
+\*\*\* Select the columns we want to work with vote_2022a \<-
+select(vote_2022, "State", "Total registrants", "Democratic Party",
+"Republican Party", "Independent", "Other parties")
 
-*** Select the columns we want to work with
-vote_2022a <- select(vote_2022, "State", "Total registrants", "Democratic Party", "Republican Party", "Independent", "Other parties")
+\*\*\* Rename the columns new_colnames \<- c("state", "total_voters",
+"democratic_voters", "republican_voters","independent_voters", "others")
+colnames(vote_2022a) \<- new_colnames
 
-*** Rename the columns
-new_colnames <- c("state", "total_voters", "democratic_voters", "republican_voters","independent_voters", "others")
-colnames(vote_2022a) <- new_colnames
-
-*** Remove the commas
-columns_commas <- c("total_voters", "democratic_voters", "republican_voters", "independent_voters", "others")
-vote_2022a[columns_commas] <- lapply(vote_2022a[columns_commas], function(x) gsub(",", "", x))
+\*\*\* Remove the commas columns_commas \<- c("total_voters",
+"democratic_voters", "republican_voters", "independent_voters",
+"others") vote_2022a[columns_commas] \<-
+lapply(vote_2022a[columns_commas], function(x) gsub(",", "", x))
 vote_2022a
 
 ### Merging both Data sets
@@ -363,7 +407,9 @@ merge_combine
 
 ## Calculate Average
 
-To better visualize the data I will provide a table that display state by their Average Total
+To better visualize the data I will provide a table that display state
+by their Average Total
+
 ```{r}
 merge_combine_1 <- mutate(merge_combine, "Average_total"= rowMeans( select(merge_combine,"num_vote", "state_party_total_r", "state_party_total_r", "reg_voter_num") ) )
 
@@ -371,7 +417,9 @@ reactable(select(merge_combine_1, "state", "Average_total"))
 ```
 
 ### Filter Votes by Party
+
 This filter data party which are Democrat and Republican. W
+
 ```{r}
 # Members filter 
 Party_D <- merge_combine_1 %>% filter( party == "Democrat", na.omit(TRUE))
@@ -380,7 +428,10 @@ Party_R <- merge_combine_1 %>% filter(party == "Republican", na.omit(TRUE))
 ```
 
 ## Democratic vs Republican vote by state
-There are two plot below, one show Republican votes by State and the other show Democratic votes by state.
+
+There are two plot below, one show Republican votes by State and the
+other show Democratic votes by state.
+
 ```{r}
 ## Democratic by state
 D_plot <- ggplot(merge_combine_1, aes(y=merge_combine_1$state, fill = state)) + geom_bar(binwidth = 300) +
@@ -403,7 +454,10 @@ R_plot
 
 ### Party Percentage by state
 
-The plot below show the party percentage by state. We can see that the Republican party have the highest percent by state compare to the Democratic party.
+The plot below show the party percentage by state. We can see that the
+Republican party have the highest percent by state compare to the
+Democratic party.
+
 ```{r}
 myplot <- ggplot(merge_combine_1, aes(merge_combine_1$party, group = state)) +
           geom_text(aes( label = scales::percent(..prop..),
@@ -418,7 +472,8 @@ geom_bar(aes(y = ..prop.., fill = `state`, stat="count")) +
 myplot
 ```
 
-### Number of vote 
+### Number of vote
+
 ```{r,warning=FALSE,echo=FALSE}
 ggplot(merge_combine_1, aes(x =`num_vote`, y= `state`, fill = party)) + geom_boxplot()
 ```
