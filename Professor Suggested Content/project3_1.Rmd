@@ -1,6 +1,6 @@
 ---
 title: "Project_3"
-author: "Anthony Conrardy"
+author: "Koohyar P, Anthony C, Victor T, & James N"
 date: "2024-03-16"
 output:
   html_document: default
