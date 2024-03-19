@@ -1,0 +1,868 @@
+---
+title: "DATA607 Project III - Teamwork"
+authors: "Koohyar P, Anthony C, Victor T, & James N"
+date: "`r Sys.Date()`"
+output:
+  html_document: default
+  pdf_document: default
+editor_options:
+  chunk_output_type: console
+  markdown:
+    wrap: 72
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Teamwork By: 
+
+Team\<- c (Anthony C., James N., Koohyar P., Victor T.)
+
+## Introduction (AC)
+
+While the presidential election season is in full swing, we decided to
+explore polling data sources that exist online. There are several
+individual sources that could be found online; however, the website
+RealClear Politics is a location that gathers, summarizes, and presents
+the results of the various polls in one location. It should be noted
+that, while this website is good of a summary view, the underlying
+polling data must be extracted from the various polling sources (if
+available) for further review and analysis. The polling sources include
+Emerson College, The Economist Magazine, The New York Times/Sienna
+College, CBS News, and many others. Some sources are free, while others
+incur a fee. It should be noted that the polls tend to discriminate
+between “Registered Voters” (RV) and “Likely Voters” (LV), and the
+common belief is the LV are better more indicative of election results.
+However, a Berkeley Haas Study in 2020 reported that while the polls
+reached a 95% confidence level for statistical reporting, the actual
+election results only matched with the polls 60% of the time.
+
+## Data Sources (AN & KP)
+
+We have reviewed and evaluated various data sources, primarily scraped
+from websites and the internet. These sources are diverse, encompassing
+tables on websites, attached PDF documents, and CSV files. Some data may
+require preparation through an additional platform before we can proceed
+with evaluation and analysis. This process will also involve matching
+and pairing poll questions and responses to ensure question equivalency.
+
+The data currently identified includes polls from The New York
+Times/Siena, Roanoke College, and Emerson College.
+
+Ultimately, we decided to utilize [Ballotpedia’s Super Tuesday
+primaries](https://ballotpedia.org/Super_Tuesday_primaries,_2024) and
+<https://worldpopulationreview.com/state-rankings/registered-voters-by-state>
+datasets. The websites have provided unbiased raw data from different
+states on topics of our interest, including voter turnout,
+registrations, voter enthusiasm, voter distribution, and total votes for
+different candidates.
+
+## Code Initialization (KP)
+
+Here I load the required libraries and ensure all the required packages
+are installed before running the following blocks of codes.
+
+```{r Code_initialization, echo=FALSE, message=FALSE}
+
+required_packages <- c("RSQLite","devtools","tidyverse","DBI","dplyr","odbc","openintro","ggplot2","psych","reshape2","knitr","markdown","shiny","R.rsp","fivethirtyeight","RCurl", "stringr","readr","glue","data.table", "hflights", "jsonlite", "rjson", "XML", "xml2", "rvest", "readxl", "openxlsx", "httr", "purrr","kableExtra","reactable") # Specify packages
+
+not_installed <- required_packages[!(required_packages %in% installed.packages()[ , "Package"])]# Extract not installed packages
+if(length(not_installed)==0){
+  print("All required packages are installed")
+} else {
+  print(paste(length(not_installed), "package(s) had to be installed.")) # print the list of packages that need to be installed
+  install.packages(not_installed)
+}
+
+# define different paths to load the files 
+library(dplyr)
+library(tidyverse)
+library(readxl)
+library(rvest)
+library(knitr)
+library(openxlsx)
+library(httr)
+library(jsonlite)
+library(stringr)
+library(tidyr)
+library(XML)
+library(purrr)
+library(kableExtra)
+library(reactable)
+
+#surpass the error message for dplyr to not show the masking
+suppressPackageStartupMessages(library(dplyr))
+suppressPackageStartupMessages(library(jsonlite))
+
+
+```
+
+## Load files from GitHub (KP)
+
+All our files are stored in the GitHub `Data/*` directory for
+productivity and collaboration. In this section, I verify the list of
+files in the Data folder and then load them all into R. All files are in
+CSV format and are readily accessible by RStudio. However, since they
+originate from different sources, we must first tidy, clean, and
+organize them.
+
+```{r load_files, echo=FALSE, message=FALSE}
+
+# GitHub raw URL
+GitHub_raw <- "https://raw.githubusercontent.com/kohyarp/DATA607_Project3/main/Data"
+CSV_path <- "/NYT_Sienna%20Poll_table_1.csv"
+CSV_path <- paste0(GitHub_raw , CSV_path) 
+#read CSV file to the path to RStudio
+
+Read_csv <- read.csv(CSV_path,check.names = TRUE,
+                     na.strings = "NA", dec = ".", quote = "\"",
+                     header = FALSE,
+                     encoding = "UTF-8",
+                     blank.lines.skip = TRUE)
+
+#Read_csv <- read.csv("https://raw.githubusercontent.com/kohyarp/DATA607_Project3/main/Data/NYT_Sienna%20Poll_table_1.csv")
+
+
+# Send a GET request to the GitHub raw URL
+#GitHub_raw <- "https://raw.githubusercontent.com/kohyarp/DATA607_Project3/main"
+
+
+repository_url <- "https://api.github.com/repos/kohyarp/DATA607_Project3/contents/Data"
+
+#Load all the relevant tile type from GitHub_raw
+
+GitHub_file_type <-  c("csv", "CSV", "txt", "TXT")  #Different types of file's extension to be loaded 
+
+GitHub_Get_file <- function(repository_url = "https://api.github.com/repos/kohyarp/DATA607_Project3/contents/Data" , GitHub_file_type = c("csv","txt")) {
+    
+  # Send a GET request to the GitHub API
+  response <- GET(repository_url)
+  #response <- GET(GitHub_raw)
+  #(response)
+  # Extract content from the response
+  #content <- content(response, "text")
+  
+  # Check if request was successful
+  if (http_type(response) == "application/json") {
+  # Parse JSON response
+  content <- content(response, as = "text")
+  file_list <- fromJSON(content)
+  
+  # Extract file names from the response
+  file_names <- file_list$name
+  #file_names <- sapply(file_list, function(x) x$name)
+  
+  # Filter out directories and unwanted files (like '..' and '.')
+  file_names <- file_names[file_names != ".." & file_names != "."]
+  # Replace spaces with %20 in file names
+  file_names <- URLencode(file_names)
+  
+  # Print the list of file names
+  #print(file_names)
+  # Initialize list to store files by type
+  files_by_type <- list()
+  
+  #GitHub API has error loading file from API but load it correctly from Raw and following code is to help it, and I replaced it with raw to work. 
+  repository_url_raw <-  gsub("^https://api\\.github\\.com/repos", 
+                          "https://raw.githubusercontent.com", repository_url)
+   repository_url_raw <-  gsub("contents", "main", repository_url_raw)
+  
+    # Iterate through file names
+    for (file in file_names) {
+      for (type in GitHub_file_type) {
+        if (grepl(paste0("\\.", type, "$"), file)) {
+          file_url <- paste0(repository_url_raw, "/", file)  # Construct full URL using repository_url
+          files_by_type[[type]] <- c(files_by_type[[type]], file_url)  # Add file to list for its type
+          message("File", file, "with type", type, "has been identified in the repository.")
+        }
+      }
+    }
+
+    return(files_by_type)
+  } else {
+    # Print error message if request was not successful
+    print("Error: Unable to fetch file list from GitHub.")
+    return(NULL)  # Return NULL in case of error
+  }
+
+}
+
+
+#run the function and create a list of file for the different type of file to be loaded later
+Github_file_list <- GitHub_Get_file (repository_url = repository_url , GitHub_file_type = GitHub_file_type)
+
+
+#define a function that get a list of csv fields and load them all from GitHub public library 
+GitHub_CSV_load <- function(repository_url = "https://api.github.com/repos/kohyarp/DATA607_Project3/contents/Data") {
+  # GitHub repository URL
+  
+  # Send a GET request to the GitHub API
+  response <- GET(repository_url)
+  #response <- GET(GitHub_raw)
+  #(response)
+  # Extract content from the response
+  #content <- content(response, "text")
+  
+  # Check if request was successful
+  if (http_type(response) == "application/json") {
+  # Parse JSON response
+  content <- content(response, as = "text")
+  file_list <- fromJSON(content)
+  
+  # Extract file names from the response
+  file_names <- file_list$name
+  #file_names <- sapply(file_list, function(x) x$name)
+  
+  # Filter out directories and unwanted files (like '..' and '.')
+  file_names <- file_names[file_names != ".." & file_names != "."]
+  # Replace spaces with %20 in file names
+  file_names <- URLencode(file_names)
+  
+  # Print the list of file names
+  print(file_names)
+} else {
+  # Print error message if request was not successful
+  print("Error: Unable to fetch file list from GitHub.")
+  return(NULL)  # Return NULL in case of error
+}
+  # Parse the content to extract file names
+  #file_names <- gsub(".*<a href=\"([^\"]*)\".*", "\\1", content)
+  # Filter out directories and unwanted files (like '..' and '.')
+  #file_names <- file_names[file_names != ".." & file_names != "."]
+  # Initialize list to load files
+  loaded_file_list <- list()
+  
+  # Counter to keep track of loaded files
+  file_counter <- 0
+  temp <- data.frame(file_names)
+  
+  # Loop through the file names, download, and load them into R
+  for (file in file_names) {
+  # Check if the file has .csv or .CSV extension
+  if (grepl("\\.csv$|\\.CSV$", file)) {
+    # Construct the full URL for each file
+    file_url <- paste0(GitHub_raw, "/", file)
+    
+    # Download the file
+    download.file(file_url, destfile = file, mode = "wb")
+    
+    # Load the file into R
+    data <- tryCatch(
+      read.csv(file_url,check.names = TRUE,
+                     na.strings = "NA", dec = ".", quote = "\"",
+                     header = FALSE,
+                     encoding = "UTF-8",
+                     blank.lines.skip = TRUE),
+      
+#      read.csv(file, check.names = TRUE, na.strings = "", dec = ".", quote = "\""),
+      error = function(e) {
+        message("Error loading file:", conditionMessage(e))
+        NULL
+      }
+    )
+    
+    # Check if the file is successfully loaded
+    if (!is.null(data)) {
+      # Increment the file counter
+      file_counter <- file_counter + 1
+      
+      # Store file and its data in the loaded_file_list
+      loaded_file_list[[file_counter]] <- list(file = file, data = data)
+      
+      # Print message indicating the file has been loaded
+      message("File", file, "has been loaded into R.")
+    }
+  }
+  }
+  return(loaded_file_list)
+  }
+
+temp_files <- GitHub_CSV_load()
+
+GitHub_load_all <- function(file_list) {
+
+  # Initialize lists to store loaded data
+  loaded_csv_data <- list()
+  loaded_txt_data <- list()
+
+  # Loop through each type in the file list
+  for (type in names(file_list)) {
+    # Check if type is either "csv" or "txt"
+    if (type %in% c("csv", "txt")) {
+      for (file_url in file_list[[type]]) {
+        # Download file content using tryCatch for error handling
+        data <- tryCatch({
+          if (type == "csv") {
+            read.csv(file_url,check.names = TRUE,
+                     na.strings = "NA", dec = ".", quote = "\"",
+                     header = FALSE,
+                     encoding = "UTF-8",
+                     blank.lines.skip = TRUE)
+          } else {
+            readLines(file_url)
+          }
+        }, error = function(e) {
+          message("Error loading file:", file_url, ":", paste(e))
+          return(NULL)  # Return NULL on error for the specific file
+        })
+
+        # Check if data was loaded successfully (not NULL)
+        if (!is.null(data)) {
+          # Store data in the appropriate list based on type
+          if (type == "csv") {
+            loaded_csv_data[[tail(file_url, 1)]] <- data  # Use filename as key
+          } else {
+            loaded_txt_data[[tail(file_url, 1)]] <- data  # Use filename as key
+          }
+          message("File", tail(file_url, 1), "with type", type, "has been loaded.")
+        }
+      }
+    }
+  }
+
+  # Combine loaded data into a single list with type information
+  all_loaded_files <- list(
+    csv_data = loaded_csv_data,
+    txt_data = loaded_txt_data
+  )
+
+  return(all_loaded_files)
+}
+
+
+GitHub_loaded_list <- GitHub_load_all(Github_file_list)
+
+#temp_csv_file <- temp_files_contents [[1]][[1]]
+
+
+```
+
+Echo and Message are both `FALSE` to not show unneeded data.
+
+### Data Import (AC)
+
+<https://ballotpedia.org/Super_Tuesday_primaries,_2024>
+
+```{r import}
+url <- "https://ballotpedia.org/Super_Tuesday_primaries,_2024"
+webpage <- read_html(url)
+st_table <- html_nodes(webpage, '.portal-section')
+table_names <- c("Alabama", "Alaska", "American Somoa", "Arkansas", "California", "Colorado", "Iowa", "Maine", "Massachusetts", "Minnesota", "North_Carolina", "Oklahoma", "Tennessee", "Texas", "Utah", "Vermont", "Virginia")
+table_frames <- list()
+for (i in seq_along(st_table)) {
+  table_data <- html_table(st_table[[i]])
+  table_name <- table_names[i]
+  table_frames[[table_name]] <- table_data
+}
+# Sample Data Frame
+print("An Example of Raw Data is shown for information")
+kable(table_frames$Alabama)
+
+```
+
+### Remove Extraneous Rows (AC)
+
+```{r removing rows with 99% reporting or Source}
+for (i in seq_along(table_frames)){
+  # Filter the rows that contain the character string "% reporting"
+  table_frames[[i]] <- table_frames[[i]][!grepl("% reporting", table_frames[[i]]$X2), ]
+}
+# Loop through each data frame removing the row that contains "Source" in column X2
+for (i in seq_along(table_frames)){
+  # Filter the rows that contain the character string "Source"
+  table_frames[[i]] <- table_frames[[i]][!grepl("Source", table_frames[[i]]$X2), ]
+}
+# for (i in seq_along(table_frames)) {
+#  print(table_frames[[i]])
+#}
+#table_frames[[1]]
+print("Data is cleaned by removing 99% reporting, just the f1rst 10 rows are shown")
+head(table_frames[[1]],10)
+
+```
+
+### Adding Columns for State and Party affiliation (AC)
+
+```{r adding columns for state and party affilation, echo=FALSE}
+add_columns <- function(df){
+  df |> mutate(X6 = if_else(X2 == "Candidate", "state", NA),
+               X7 = if_else(X2 == "Candidate", "party", NA))
+}
+table_frames <- map(table_frames, add_columns)
+
+
+#table_frames[[1]]
+```
+
+### Extracting of Data Frames from List for Super Tuesday States (AC)
+
+Selecting the proper columns, dropping the unnecessary ones. This also
+places "Democrat into the Party Column for ALL candidates, which will
+fixed in a later section to include Republican in the correct candidate.
+Pulls the individual state data frames out of the list to be worked on
+individually.
+
+```{r super tuesday states, echo=FALSE}
+alabama <- table_frames[[1]] |> select(!X1&!X5) |> mutate(X6 = ifelse(is.na(X6), "alabama", X6))|> mutate(X7 = ifelse(is.na(X7), "Democrat", X7))
+arkansas <- table_frames[[4]]|> select(!X1&!X5) |> mutate(X6 = ifelse(is.na(X6), "arkansas", X6)) |> mutate(X7 = ifelse(is.na(X7), "Democrat", X7))
+california <- table_frames[[5]]|> select(!X1&!X5) |> mutate(X6 = ifelse(is.na(X6), "california", X6)) |> mutate(X7 = ifelse(is.na(X7), "Democrat", X7))
+colorado <- table_frames[[6]]|> select(!X1&!X5) |> mutate(X6 = ifelse(is.na(X6), "colorado", X6)) |> mutate(X7 = ifelse(is.na(X7), "Democrat", X7))
+maine <- table_frames[[8]]|> select(!X1&!X5) |> mutate(X6 = ifelse(is.na(X6), "maine", X6)) |> mutate(X7 = ifelse(is.na(X7), "Democrat", X7))
+massachusetts <- table_frames[[9]]|> select(!X1&!X5) |> mutate(X6 = ifelse(is.na(X6), "massachusetts", X6)) |> mutate(X7 = ifelse(is.na(X7), "Democrat", X7))
+minnesota <- table_frames[[10]]|> select(!X1&!X5) |> mutate(X6 = ifelse(is.na(X6), "minnesota", X6)) |> mutate(X7 = ifelse(is.na(X7), "Democrat", X7))
+north_carolina <- table_frames[[11]]|> select(!X1&!X5) |> mutate(X6 = ifelse(is.na(X6), "north carolina", X6)) |> mutate(X7 = ifelse(is.na(X7), "Democrat", X7))
+oklahoma <- table_frames[[12]]|> select(!X1&!X5) |> mutate(X6 = ifelse(is.na(X6), "oklahoma", X6)) |> mutate(X7 = ifelse(is.na(X7), "Democrat", X7))
+tennessee <- table_frames[[13]]|> select(!X1&!X5) |> mutate(X6 = ifelse(is.na(X6), "tennessee", X6)) |> mutate(X7 = ifelse(is.na(X7), "Democrat", X7))
+texas<- table_frames[[14]]|> select(!X1&!X5) |> mutate(X6 = ifelse(is.na(X6), "texas", X6)) |> mutate(X7 = ifelse(is.na(X7), "Democrat", X7))
+utah <- table_frames[[15]]|> select(!X1&!X5) |> mutate(X6 = ifelse(is.na(X6), "utah", X6)) |> mutate(X7 = ifelse(is.na(X7), "Democrat", X7))
+vermont <- table_frames[[16]]|> select(!X1&!X5) |> mutate(X6 = ifelse(is.na(X6), "vermont", X6)) |> mutate(X7 = ifelse(is.na(X7), "Democrat", X7))
+virginia <- table_frames[[17]]|> select(!X1&!X5) |> mutate(X6 = ifelse(is.na(X6), "virginia", X6)) |> mutate(X7 = ifelse(is.na(X7), "Democrat", X7))
+
+kable(alabama)
+
+```
+
+### Substituting Republican in the rows (AC)
+
+This uses a filter that identifies the second occurrence in the column
+X2 that separates republican candidates from the democratic candidates,
+and then replaces "Democrat" with "Republican". This is done for each
+individual data frame for the Super Tuesday states.
+
+```{r repubilcan candidates, echo=FALSE}
+# Find the index of the second occurrence of "Candidate" in column X2
+soi <- alabama$X2 %>%
+  grep("Candidate", ., fixed = TRUE) %>%
+  .[2]
+# Replace values in column X7 after the second occurrence of "Candidate"
+if (!is.na(soi)) {
+  alabama <- alabama %>%
+    mutate(X7 = ifelse(row_number() > soi, "Republican", X7))
+}
+# Find the index of the second occurrence of "Candidate" in column X2
+soi <- arkansas$X2 %>%
+  grep("Candidate", ., fixed = TRUE) %>%
+  .[2]
+# Replace values in column X7 after the second occurrence of "Candidate"
+if (!is.na(soi)) {
+  arkansas <- arkansas %>%
+    mutate(X7 = ifelse(row_number() > soi, "Republican", X7))
+}
+# Find the index of the second occurrence of "Candidate" in column X2
+soi <- california$X2 %>%
+  grep("Candidate", ., fixed = TRUE) %>%
+  .[2]
+# Replace values in column X7 after the second occurrence of "Candidate"
+if (!is.na(soi)) {
+  california <- california %>%
+    mutate(X7 = ifelse(row_number() > soi, "Republican", X7))
+}
+# Find the index of the second occurrence of "Candidate" in column X2
+soi <- colorado$X2 %>%
+  grep("Candidate", ., fixed = TRUE) %>%
+  .[2]
+# Replace values in column X7 after the second occurrence of "Candidate"
+if (!is.na(soi)) {
+  colorado <- colorado %>%
+    mutate(X7 = ifelse(row_number() > soi, "Republican", X7))
+}
+# Find the index of the second occurrence of "Candidate" in column X2
+soi <- maine$X2 %>%
+  grep("Candidate", ., fixed = TRUE) %>%
+  .[2]
+# Replace values in column X7 after the second occurrence of "Candidate"
+if (!is.na(soi)) {
+  maine <- maine %>%
+    mutate(X7 = ifelse(row_number() > soi, "Republican", X7))
+}
+# Find the index of the second occurrence of "Candidate" in column X2
+soi <- massachusetts$X2 %>%
+  grep("Candidate", ., fixed = TRUE) %>%
+  .[2]
+# Replace values in column X7 after the second occurrence of "Candidate"
+if (!is.na(soi)) {
+  massachusetts <- massachusetts %>%
+    mutate(X7 = ifelse(row_number() > soi, "Republican", X7))
+}
+# Find the index of the second occurrence of "Candidate" in column X2
+soi <- minnesota$X2 %>%
+  grep("Candidate", ., fixed = TRUE) %>%
+  .[2]
+# Replace values in column X7 after the second occurrence of "Candidate"
+if (!is.na(soi)) {
+  minnesota <- minnesota %>%
+    mutate(X7 = ifelse(row_number() > soi, "Republican", X7))
+}
+# Find the index of the second occurrence of "Candidate" in column X2
+soi <- north_carolina$X2 %>%
+  grep("Candidate", ., fixed = TRUE) %>%
+  .[2]
+# Replace values in column X7 after the second occurrence of "Candidate"
+if (!is.na(soi)) {
+  north_carolina <- north_carolina %>%
+    mutate(X7 = ifelse(row_number() > soi, "Republican", X7))
+}
+# Find the index of the second occurrence of "Candidate" in column X2
+soi <- oklahoma$X2 %>%
+  grep("Candidate", ., fixed = TRUE) %>%
+  .[2]
+# Replace values in column X7 after the second occurrence of "Candidate"
+if (!is.na(soi)) {
+  oklahoma <- oklahoma %>%
+    mutate(X7 = ifelse(row_number() > soi, "Republican", X7))
+}
+# Find the index of the second occurrence of "Candidate" in column X2
+soi <- tennessee$X2 %>%
+  grep("Candidate", ., fixed = TRUE) %>%
+  .[2]
+# Replace values in column X7 after the second occurrence of "Candidate"
+if (!is.na(soi)) {
+  tennessee <- tennessee %>%
+    mutate(X7 = ifelse(row_number() > soi, "Republican", X7))
+}
+# Find the index of the second occurrence of "Candidate" in column X2
+soi <- texas$X2 %>%
+  grep("Candidate", ., fixed = TRUE) %>%
+  .[2]
+# Replace values in column X7 after the second occurrence of "Candidate"
+if (!is.na(soi)) {
+  texas <- texas %>%
+    mutate(X7 = ifelse(row_number() > soi, "Republican", X7))
+}
+# Find the index of the second occurrence of "Candidate" in column X2
+soi <- utah$X2 %>%
+  grep("Candidate", ., fixed = TRUE) %>%
+  .[2]
+# Replace values in column X7 after the second occurrence of "Candidate"
+if (!is.na(soi)) {
+  utah <- utah %>%
+    mutate(X7 = ifelse(row_number() > soi, "Republican", X7))
+}
+# Find the index of the second occurrence of "Candidate" in column X2
+soi <- vermont$X2 %>%
+  grep("Candidate", ., fixed = TRUE) %>%
+  .[2]
+# Replace values in column X7 after the second occurrence of "Candidate"
+if (!is.na(soi)) {
+  vermont <- vermont %>%
+    mutate(X7 = ifelse(row_number() > soi, "Republican", X7))
+}
+# Find the index of the second occurrence of "Candidate" in column X2
+soi <- virginia$X2 %>%
+  grep("Candidate", ., fixed = TRUE) %>%
+  .[2]
+# Replace values in column X7 after the second occurrence of "Candidate"
+if (!is.na(soi)) {
+  virginia <- virginia %>%
+    mutate(X7 = ifelse(row_number() > soi, "Republican", X7))
+}
+
+kable(alabama)
+
+```
+
+### Removing Candidate Rows (AC)
+
+In this section, we remove the "candidate" row from each of the data
+frames and rename the column variable names from X to what they actually
+represent. We also address the accidental import of California
+candidates not running for the national office of president because they
+were placed in the same table on the website. Those candidates had their
+party affiliation and percent_vote values changes to NA.
+
+```{r removing candidate rows by filter, echo=FALSE, warning=FALSE}
+alabama <- alabama |> filter(!X2=="Candidate") |> rename(candidate=X2, percent_vote=X3, num_vote=X4, state=X6, party=X7)
+arkansas <-  arkansas |> filter(!X2=="Candidate") |> rename(candidate=X2, percent_vote=X3, num_vote=X4, state=X6, party=X7)
+california <-  california |> filter(!X2=="Candidate") |> rename(candidate=X2, percent_vote=X3, num_vote=X4, state=X6, party=X7)
+# California Cleanup. Five candidates brought over that were not running for president.
+california[18:23, "party"] <- "NA"
+california[18:23, "percent_vote"] <- "NA"
+colorado <-  colorado |> filter(!X2=="Candidate") |> rename(candidate=X2, percent_vote=X3, num_vote=X4, state=X6, party=X7)
+maine <-  maine |> filter(!X2=="Candidate") |> rename(candidate=X2, percent_vote=X3, num_vote=X4, state=X6, party=X7)
+massachusetts <-  massachusetts |> filter(!X2=="Candidate") |> rename(candidate=X2, percent_vote=X3, num_vote=X4, state=X6, party=X7)
+minnesota <-  minnesota |> filter(!X2=="Candidate") |> rename(candidate=X2, percent_vote=X3, num_vote=X4, state=X6, party=X7)
+north_carolina <-  north_carolina |> filter(!X2=="Candidate") |> rename(candidate=X2, percent_vote=X3, num_vote=X4, state=X6, party=X7)
+oklahoma <-  oklahoma |> filter(!X2=="Candidate") |> rename(candidate=X2, percent_vote=X3, num_vote=X4, state=X6, party=X7)
+tennessee <- tennessee |> filter(!X2=="Candidate") |> rename(candidate=X2, percent_vote=X3, num_vote=X4, state=X6, party=X7)
+texas <-  texas |> filter(!X2=="Candidate") |> rename(candidate=X2, percent_vote=X3, num_vote=X4, state=X6, party=X7)
+utah <-  utah|> filter(!X2=="Candidate") |> rename(candidate=X2, percent_vote=X3, num_vote=X4, state=X6, party=X7)
+vermont <-  vermont |> filter(!X2=="Candidate") |> rename(candidate=X2, percent_vote=X3, num_vote=X4, state=X6, party=X7)
+virginia <- virginia |> filter(!X2=="Candidate") |> rename(candidate=X2, percent_vote=X3, num_vote=X4, state=X6, party=X7)
+california |> kbl() |> kable_classic_2(full_width=F, font_size=12)
+
+```
+
+### Combining the Entire Data Frame (AC)
+
+In this section we combine all the Super Tuesday state data frames into
+one tidy data frame containing five (5) variables and 205 rows. Once in,
+we will remove all the commas in the vote counts so we can use the data
+as numeric.
+
+```{r Combine}
+# The Combine
+super_tuesday_combine <- bind_rows(alabama, arkansas, california, colorado, maine, massachusetts, minnesota, north_carolina, oklahoma, tennessee, texas, utah, vermont, virginia)
+
+# Remove the commas
+super_tuesday_combine$num_vote <- gsub(",", "", super_tuesday_combine$num_vote)
+#super_tuesday_combine
+
+```
+
+### Total Votes Cast by Party Affiliation and State (AC)
+
+In this section we are going to identify the total number of votes cast
+by state, and then grouped by party affiliation.
+
+```{r state and party votes, echo=FALSE}
+# Treat the num_vote column as numeric
+super_tuesday_combine$num_vote <- as.numeric(super_tuesday_combine$num_vote)
+
+
+#Group by state total votes
+state_total_2024 <- super_tuesday_combine |> group_by(state) |> summarise(state_total=sum(num_vote))
+
+state_dem_total_2024 <- super_tuesday_combine |> group_by(state,party) |> filter(party=="Democrat") |>  summarise(state_party_total_d=sum(num_vote), .groups = "keep")
+
+state_rep_total_2024 <- super_tuesday_combine |> group_by(state, party) |> filter(party=="Republican") |>  summarise(state_party_total_r=sum(num_vote), .groups = "keep")
+
+state_data_2024a <- merge(state_total_2024, state_dem_total_2024, by="state")
+state_data_2024b <- merge(state_data_2024a, state_rep_total_2024, by="state")
+
+state_final_2024 <- state_data_2024b |> select(!party.x&!party.y)
+
+kable(state_final_2024)
+```
+
+### Importing Next Dataset (AC)
+
+In this section we are now going to import the state level data on
+registered voters and party affiliations. This comes from the website
+<https://worldpopulationreview.com/state-rankings/registered-voters-by-state>.
+These figures are from October 2022, but should be accurate enough for
+our purposes of comparison with the voting electorate on Super Tuesday
+2024. This import was much simpler due to the table structured format of
+the website, so the transformation and clean up are going to be much
+simpler. The initial import required us to move the first row to column
+names and then remove the fist row as an observation.
+
+```{r partisan affilation, echo=FALSE}
+url <- "https://worldpopulationreview.com/state-rankings/registered-voters-by-state"
+webpage <- read_html(url)
+vote <- webpage |> html_table(header = NA, fill = TRUE)
+vote_2022 <- html_table(webpage, header = TRUE)[[2]]
+#colnames(vote_2022) <- vote_2022[1,]
+#vote_2022 <- vote_2022[-1,]
+#vote_2022
+```
+
+### Tidying and Transforming (AC)
+
+In this section we are going to clean up the data frame a bit. We need
+to remove the commas and % in the values so we can do calculations
+later. We need to adjust the column names to be more workable, and we
+will need to mutate the population numbers to be comparable with the
+values in the other data frame (these are in thousands).
+
+```{r tidy and transform, echo=FALSE}
+# Column names
+new_colnames <- c("state", "reg_voter_num", "perc_vote_pop")
+colnames(vote_2022) <- new_colnames
+
+# Remove the commas and convert to numeric
+vote_2022$reg_voter_num <- gsub(",", "", vote_2022$reg_voter_num)
+vote_2022$reg_voter_num <- as.numeric(vote_2022$reg_voter_num)
+
+# Convert units from per 1000
+vote_2022 <- vote_2022 |> mutate(reg_voter_num=reg_voter_num*1000)
+
+# Remove % sign
+vote_2022$perc_vote_pop <- gsub("%", "", vote_2022$perc_vote_pop)
+
+# Convert percent
+vote_2022 <- vote_2022 |> mutate(perc_vote_pop = as.numeric(perc_vote_pop)/100)
+
+# Convert state to lower case
+vote_2022$state <- tolower(vote_2022$state)
+
+```
+
+### Filtering the State Level Data to Only Super Tuesday States (AC)
+
+```{r filter state partisan voter date}
+super_states <- state_final_2024$state
+vote_2022af <- vote_2022[vote_2022$state %in% super_states, ]
+
+combine_data_frame <- merge(state_final_2024, vote_2022af, by="state")
+
+kable(combine_data_frame)
+
+```
+
+### Merging both Data sets (JN)
+
+```{r}
+## Merging Super_tuesday_combine with combine_data_frame
+merge_combine<- merge(super_tuesday_combine,combine_data_frame, by="state",all.x = TRUE) %>%
+  arrange((state), percent_vote)
+
+#merge_combine
+```
+
+### Analysis (JN)
+
+```{r}
+merge_combine_1 <- mutate(merge_combine, "Average_total"= rowMeans( select(merge_combine,"num_vote", "state_party_total_r", "state_party_total_r", "reg_voter_num") ) )
+```
+
+### Filter Votes by Party (NJ)
+
+This filter data party which are Democrat and Republican. W
+
+```{r}
+# Members filter 
+Party_D <- merge_combine_1 %>% filter( party == "Democrat", na.omit(TRUE))
+Party_R <- merge_combine_1 %>% filter(party == "Republican", na.omit(TRUE))
+
+```
+
+### Democratic vs Republican Vote by State (NJ)
+
+There are two plot below, one shows Republican votes by State and the
+other show Democratic votes by state.
+
+```{r}
+## Democratic by state
+D_plot <- ggplot(state_final_2024, aes(x=state_party_total_d, y=state, fill=state)) +
+  geom_bar(stat = "identity") +
+  scale_x_continuous(labels = scales::comma) +
+  labs (x="Democratic Vote Totals", y="State") +
+  theme(plot.title = element_text(hjust=0.5)) +
+  ggtitle("Democratic Vote by State-Super Tuesday")
+D_plot
+## Republican by state
+R_plot <- ggplot(state_final_2024, aes(x=state_party_total_r, y=state, fill=state)) +
+  geom_bar(stat = "identity") +
+  scale_x_continuous(labels = scales::comma) +
+  labs (x="Republican Vote Totals", y="State") +
+  theme(plot.title = element_text(hjust=0.5)) +
+  ggtitle("Republican Vote by State-Super Tuesday")
+
+R_plot
+```
+
+### Party Percentage by State (NJ)
+
+The plot below show the party percentage by state. We can see that the
+Republican party have the highest percent by state compare to the
+Democratic party.
+
+```{r}
+state_final_2024$perc_rep <- (state_final_2024$state_party_total_r/state_final_2024$state_total)*100
+state_final_2024$perc_dem <- (state_final_2024$state_party_total_d/state_final_2024$state_total)*100
+state_data_long <- pivot_longer(state_final_2024, cols = c(perc_rep, perc_dem),
+                                names_to="Party", values_to = "Percentage")
+
+ggplot(state_data_long, aes(x = Percentage, y = state, fill = Party)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  labs(x = "Percentage of Total Votes (%)", y = "State") +
+  ggtitle("Percentage of Total Votes by Party for Each State") +
+  scale_fill_manual(values =  c("skyblue","salmon"), 
+                     labels = c("Democrat", "Republican")) +
+ geom_text(aes(label = sprintf("%.0f%%", Percentage)), position = position_dodge(width = 1.0), vjust = 0.5, hjust= -0.25) +
+  theme_minimal()
+  
+```
+
+### Percent of Registered Voters Participating in Super Tuesday Primaries (JN)
+
+```{r,warning=FALSE,echo=FALSE}
+vote2022a <- vote_2022
+
+st_state <- merge(state_total_2024, vote2022a, by = "state", all.x = TRUE)
+st_state_1 <- st_state |> mutate(state_vote_pop = reg_voter_num/perc_vote_pop) |> select(state, state_total, reg_voter_num, state_vote_pop)
+
+st_state_1$Percent_Voted_Registered <- (st_state_1$state_total/st_state_1$reg_voter_num)*100
+st_state_1$Percent_Voted_Eligible <- (st_state_1$state_total/st_state_1$state_vote_pop)*100
+
+st_state_1_long <- pivot_longer(st_state_1,
+                                cols = c(Percent_Voted_Registered, Percent_Voted_Eligible),
+                                names_to = "Percentage_Type", values_to = "Percentage")
+
+ggplot(st_state_1_long, aes(x = Percentage, y = state, fill = Percentage_Type)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  labs(x = "Percentage Voted", y = "State",
+       title = "Percentage of Registered Voters and Eligible Voter Population",
+       fill = "Adult Populations") +
+   scale_fill_manual(values = c("darkgreen", "darkorchid"),
+                    labels = c("Registered Voters", "Eligible Population")) +
+  geom_text(aes(label = sprintf("%.0f%%", Percentage)), position = position_dodge(width = 1.0), vjust = 0.5, hjust= -0.25) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+```
+
+## Average Total by Party (JN)
+
+```{r,warning=FALSE,echo=FALSE}
+ggplot(merge_combine_1, aes(x =`Average_total`, fill = party)) + geom_histogram() +
+  ggtitle("Average voter by Party") +
+  theme(plot.title = element_text(hjust=0.5)) +
+  ylab("count") +
+  xlab("Average Total")
+```
+
+### Conclusion (KP)
+
+Super Tuesday stands as a pivotal juncture in American politics,
+offering a glimpse into the electorate’s priorities and the impact of
+campaign messaging. While numerous sources compile and present data, the
+challenge lies in identifying reliable and unbiased information that
+truly captures voter sentiment.
+
+Our team conducted a quick review of various sources, and decide to go
+with [Ballotpedia’s Super Tuesday
+primaries](https://ballotpedia.org/Super_Tuesday_primaries,_2024) and
+[worldpopulationreview](https://worldpopulationreview.com/state-rankings/registered-voters-by-state).
+The initial step involved meticulously cleaning and organizing the data
+extracted from HTML sources to facilitate comprehensive state-by-state
+analysis. This process included several stages of data refinement to
+ensure accuracy and relevance (**Anthony and James can you add some
+specific reference to the code**?).
+
+Key metrics scrutinized were voter turnout, enthusiasm, and registration
+trends. Sources indicate that these factors are crucial indicators of
+electoral success for candidates [1,2 and 3]. Our analysis revealed a
+pronounced Republican presence at the polls compared to Democrats,
+particularly in states like California, Massachusetts, Minnesota, and
+traditionally Republican strongholds like Tennessee. The disparity
+between registered Republicans and Democrats, relative to the total
+number of registered voters, further underscores the enthusiasm within
+the Republican electorate.
+
+Moreover, we observed the significant influence of uncommitted votes,
+particularly those aligned with Nikki Haley, which could potentially
+sway election outcomes. The disposition of Haley’s voter base—whether
+they support Joe Biden or Donald Trump—merits further investigation. The
+magnitude of Haley’s support could be a decisive factor in flipping
+battleground states.
+
+In summary, our analysis underscores the complexity of voter behavior
+and the multifaceted nature of political engagement, setting the stage
+for a dynamic electoral landscape.
+
+additionally, on the project note, working with various data sources and
+gathering them posed a significant challenge in this project, as did
+managing the complexity of teamwork. It took us some time to collaborate
+effectively, and additional time was required to develop the code for
+analysis and presentation
+
+## Sources
+
+[1]:
+<https://electionlab.mit.edu/articles/voter-confidence-and-electoral-participation>
+
+[2]: <https://time.com/6223871/midterms-voting-turnout-results/>
+
+[3]:
+<https://escholarship.org/content/qt83s3p2t2/qt83s3p2t2_noSplash_5f3d629c82c3feb4af00babba1b97e8d.pdf>
