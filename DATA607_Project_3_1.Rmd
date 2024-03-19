@@ -15,7 +15,11 @@ editor_options:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## Introduction
+## Teamwork By: 
+
+Team\<- c (Anthony C., James N., Koohyar P., Victor T.)
+
+## Introduction (AC)
 
 While the presidential election season is in full swing, we decided to
 explore polling data sources that exist online. There are several
@@ -34,19 +38,27 @@ However, a Berkeley Haas Study in 2020 reported that while the polls
 reached a 95% confidence level for statistical reporting, the actual
 election results only matched with the polls 60% of the time.
 
-## Data Sources
+## Data Sources (AN & KP)
 
-We are currently in discussion to identify the data sources for
-analysis, and the type of analysis we wish to discuss. The sources are
-varied and include tables on websites, attached PDF documents, and CSV
-files. Some will require us prepare the data through another platform
-before we are able to evaluate and analyze the data. This also needs to
-include a matching/pairing of questions and response on polls to insure
-equivalency of the questions. Data that has currently been identified
-include The New York Times/Sienna, Roanoke College, and Emerson College
-Polls.
+We have reviewed and evaluated various data sources, primarily scraped
+from websites and the internet. These sources are diverse, encompassing
+tables on websites, attached PDF documents, and CSV files. Some data may
+require preparation through an additional platform before we can proceed
+with evaluation and analysis. This process will also involve matching
+and pairing poll questions and responses to ensure question equivalency.
 
-## Code Initialization
+The data currently identified includes polls from The New York
+Times/Siena, Roanoke College, and Emerson College.
+
+Ultimately, we decided to utilize [Ballotpedia’s Super Tuesday
+primaries](https://ballotpedia.org/Super_Tuesday_primaries,_2024) and
+<https://worldpopulationreview.com/state-rankings/registered-voters-by-state>
+datasets. The websites have provided unbiased raw data from different
+states on topics of our interest, including voter turnout,
+registrations, voter enthusiasm, voter distribution, and total votes for
+different candidates.
+
+## Code Initialization (KP)
 
 Here I load the required libraries and ensure all the required packages
 are installed before running the following blocks of codes.
@@ -326,9 +338,7 @@ GitHub_loaded_list <- GitHub_load_all(Github_file_list)
 
 ```
 
-Echo and Message are both `FALSE` to not show unneeded data. 
-
-
+Echo and Message are both `FALSE` to not show unneeded data.
 
 ### Data Import (AC)
 
@@ -628,8 +638,8 @@ kable(state_final_2024)
 ### Importing Next Dataset (AC)
 
 In this section we are now going to import the state level data on
-registered voters and party affiliations. This comes from the
-website https://worldpopulationreview.com/state-rankings/registered-voters-by-state.
+registered voters and party affiliations. This comes from the website
+<https://worldpopulationreview.com/state-rankings/registered-voters-by-state>.
 These figures are from October 2022, but should be accurate enough for
 our purposes of comparison with the voting electorate on Super Tuesday
 2024. This import was much simpler due to the table structured format of
@@ -690,7 +700,6 @@ kable(combine_data_frame)
 
 ```
 
-
 ### Merging both Data sets (JN)
 
 ```{r}
@@ -720,7 +729,7 @@ Party_R <- merge_combine_1 %>% filter(party == "Republican", na.omit(TRUE))
 
 ### Democratic vs Republican Vote by State (NJ)
 
-There are two plot below, one show Republican votes by State and the
+There are two plot below, one shows Republican votes by State and the
 other show Democratic votes by state.
 
 ```{r}
@@ -803,4 +812,57 @@ ggplot(merge_combine_1, aes(x =`Average_total`, fill = party)) + geom_histogram(
   xlab("Average Total")
 ```
 
-### Conclusion (JN)
+### Conclusion (KP)
+
+Super Tuesday stands as a pivotal juncture in American politics,
+offering a glimpse into the electorate’s priorities and the impact of
+campaign messaging. While numerous sources compile and present data, the
+challenge lies in identifying reliable and unbiased information that
+truly captures voter sentiment.
+
+Our team conducted a quick review of various sources, and decide to go
+with [Ballotpedia’s Super Tuesday
+primaries](https://ballotpedia.org/Super_Tuesday_primaries,_2024) and
+[worldpopulationreview](https://worldpopulationreview.com/state-rankings/registered-voters-by-state).
+The initial step involved meticulously cleaning and organizing the data
+extracted from HTML sources to facilitate comprehensive state-by-state
+analysis. This process included several stages of data refinement to
+ensure accuracy and relevance (**Anthony and James can you add some
+specific reference to the code**?).
+
+Key metrics scrutinized were voter turnout, enthusiasm, and registration
+trends. Sources indicate that these factors are crucial indicators of
+electoral success for candidates [1,2 and 3]. Our analysis revealed a
+pronounced Republican presence at the polls compared to Democrats,
+particularly in states like California, Massachusetts, Minnesota, and
+traditionally Republican strongholds like Tennessee. The disparity
+between registered Republicans and Democrats, relative to the total
+number of registered voters, further underscores the enthusiasm within
+the Republican electorate.
+
+Moreover, we observed the significant influence of uncommitted votes,
+particularly those aligned with Nikki Haley, which could potentially
+sway election outcomes. The disposition of Haley’s voter base—whether
+they support Joe Biden or Donald Trump—merits further investigation. The
+magnitude of Haley’s support could be a decisive factor in flipping
+battleground states.
+
+In summary, our analysis underscores the complexity of voter behavior
+and the multifaceted nature of political engagement, setting the stage
+for a dynamic electoral landscape.
+
+additionally, on the project note, working with various data sources and
+gathering them posed a significant challenge in this project, as did
+managing the complexity of teamwork. It took us some time to collaborate
+effectively, and additional time was required to develop the code for
+analysis and presentation
+
+## Sources
+
+[1]:
+<https://electionlab.mit.edu/articles/voter-confidence-and-electoral-participation>
+
+[2]: <https://time.com/6223871/midterms-voting-turnout-results/>
+
+[3]:
+<https://escholarship.org/content/qt83s3p2t2/qt83s3p2t2_noSplash_5f3d629c82c3feb4af00babba1b97e8d.pdf>
