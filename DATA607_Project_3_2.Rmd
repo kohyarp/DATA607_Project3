@@ -21,42 +21,12 @@ Team\<- c (Anthony C., James N., Koohyar P., Victor T.)
 
 ## Introduction (AC)
 
-While the presidential election season is in full swing, we decided to
-explore polling data sources that exist online. There are several
-individual sources that could be found online; however, the website
-RealClear Politics is a location that gathers, summarizes, and presents
-the results of the various polls in one location. It should be noted
-that, while this website is good of a summary view, the underlying
-polling data must be extracted from the various polling sources (if
-available) for further review and analysis. The polling sources include
-Emerson College, The Economist Magazine, The New York Times/Sienna
-College, CBS News, and many others. Some sources are free, while others
-incur a fee. It should be noted that the polls tend to discriminate
-between “Registered Voters” (RV) and “Likely Voters” (LV), and the
-common belief is the LV are better more indicative of election results.
-However, a Berkeley Haas Study in 2020 reported that while the polls
-reached a 95% confidence level for statistical reporting, the actual
-election results only matched with the polls 60% of the time.
+While the presidential election season is in full swing, we decided to explore polling data sources that exist online. There are several individual sources that could be found; however, the website RealClear Politics is a location that gathers, summarizes, and presents the results of the various polls in one location. It should be noted that, while this website is good for a summary view, the underlying polling data must be extracted from the various sources (if available) for further review and analysis. The polling sources include Emerson College, The Economist Magazine, The New York Times/Sienna College, CBS News, and many others. Some sources are free, while others incur a fee. It should be noted that the polls tend to discriminate between “Registered Voters” (RV) and “Likely Voters” (LV), and the common belief is the LV are more indicative of election results. However, a Berkeley Haas Study in 2020 reported that while the polls reached a 95% confidence level for statistical reporting, the actual election results only matched with the polls 60% of the time.  We decided to look at the results of the Super Tuesday primary results and examine the number of votes cast for both party candidates’, compare the voter participation by the various parties, and compare voter participation to both registered voter and eligible adult population by state.
 
 ## Data Sources (AN & KP)
 
-We have reviewed and evaluated various data sources, primarily scraped
-from websites and the internet. These sources are diverse, encompassing
-tables on websites, attached PDF documents, and CSV files. Some data may
-require preparation through an additional platform before we can proceed
-with evaluation and analysis. This process will also involve matching
-and pairing poll questions and responses to ensure question equivalency.
-
-The data currently identified includes polls from The New York
-Times/Siena, Roanoke College, and Emerson College.
-
-Ultimately, we decided to utilize [Ballotpedia’s Super Tuesday
-primaries](https://ballotpedia.org/Super_Tuesday_primaries,_2024) and
-<https://worldpopulationreview.com/state-rankings/registered-voters-by-state>
-datasets. The websites have provided unbiased raw data from different
-states on topics of our interest, including voter turnout,
-registrations, voter enthusiasm, voter distribution, and total votes for
-different candidates.
+We reviewed and evaluated various data sources, primarily scraped from websites and the internet. These sources are diverse, encompassing tables on websites, attached PDF documents, and CSV files. Some data required substantial preparation through an additional platform before we could proceed with evaluation and analysis. This process also involved matching responses to ensure equivalency.
+Ultimately, we decided to utilize [Ballotpedia’s Super Tuesday primaries](https://ballotpedia.org/Super_Tuesday_primaries,_2024) and https://worldpopulationreview.com/state-rankings/registered-voters-by-state datasets. The websites have provided unbiased raw data from different states on topics of our interest, including voter turnout, registrations, voter enthusiasm, voter distribution, and total votes for different candidates.
 
 ## Code Initialization (KP)
 
@@ -814,48 +784,16 @@ ggplot(merge_combine_1, aes(x =`Average_total`, fill = party)) + geom_histogram(
 
 ### Conclusion (KP)
 
-Super Tuesday stands as a pivotal juncture in American politics,
-offering a glimpse into the electorate’s priorities and the impact of
-campaign messaging. While numerous sources compile and present data, the
-challenge lies in identifying reliable and unbiased information that
-truly captures voter sentiment.
+Super Tuesday stands as a pivotal juncture in American politics, offering a glimpse into the electorate’s priorities and the impact of campaign messaging. While numerous sources compile and present data, the challenge lies in identifying reliable and unbiased information that truly captures voter sentiment.
+Our team conducted a quick review of various sources and decide to go with [Ballotpedia’s Super Tuesday primaries](https://ballotpedia.org/Super_Tuesday_primaries,_2024) and [worldpopulationreview](https://worldpopulationreview.com/state-rankings/registered-voters-by-state).
+The initial step involved meticulously cleaning and organizing the data extracted from HTML sources to facilitate comprehensive state-by-state analysis. This process included several stages of data refinement to ensure accuracy and relevance.
 
-Our team conducted a quick review of various sources, and decide to go
-with [Ballotpedia’s Super Tuesday
-primaries](https://ballotpedia.org/Super_Tuesday_primaries,_2024) and
-[worldpopulationreview](https://worldpopulationreview.com/state-rankings/registered-voters-by-state).
-The initial step involved meticulously cleaning and organizing the data
-extracted from HTML sources to facilitate comprehensive state-by-state
-analysis. This process included several stages of data refinement to
-ensure accuracy and relevance (**Anthony and James can you add some
-specific reference to the code**?).
+Key metrics scrutinized were voter turnout and registration trends. Sources indicate that these factors are crucial indicators of electoral success for candidates. Our analysis revealed a pronounced Republican presence at the polls compared to Democrats, particularly in states like California, Massachusetts, Minnesota, and traditionally Republican strongholds like Tennessee. The disparity between registered Republicans and Democrats, relative to the total number of registered voters, further underscores the enthusiasm within the Republican electorate.
 
-Key metrics scrutinized were voter turnout, enthusiasm, and registration
-trends. Sources indicate that these factors are crucial indicators of
-electoral success for candidates [1,2 and 3]. Our analysis revealed a
-pronounced Republican presence at the polls compared to Democrats,
-particularly in states like California, Massachusetts, Minnesota, and
-traditionally Republican strongholds like Tennessee. The disparity
-between registered Republicans and Democrats, relative to the total
-number of registered voters, further underscores the enthusiasm within
-the Republican electorate.
+Moreover, we observed the significant influence of uncommitted votes, particularly those aligned with Nikki Haley, which could potentially sway election outcomes. The disposition of Haley’s voter base—whether they support Joe Biden or Donald Trump—merits further investigation. The magnitude of Haley’s support could be a decisive factor in flipping battleground states.
 
-Moreover, we observed the significant influence of uncommitted votes,
-particularly those aligned with Nikki Haley, which could potentially
-sway election outcomes. The disposition of Haley’s voter base—whether
-they support Joe Biden or Donald Trump—merits further investigation. The
-magnitude of Haley’s support could be a decisive factor in flipping
-battleground states.
+In summary, our analysis underscores the complexity of voter behavior and the multifaceted nature of political engagement, setting the stage for a dynamic electoral landscape. Additionally, on the project note, working with various data sources and gathering them posed a significant challenge in this project, as did managing the complexity of teamwork. It took us some time to collaborate effectively, and additional time was required to develop the code for analysis and presentation.
 
-In summary, our analysis underscores the complexity of voter behavior
-and the multifaceted nature of political engagement, setting the stage
-for a dynamic electoral landscape.
-
-additionally, on the project note, working with various data sources and
-gathering them posed a significant challenge in this project, as did
-managing the complexity of teamwork. It took us some time to collaborate
-effectively, and additional time was required to develop the code for
-analysis and presentation
 
 ## Sources
 
